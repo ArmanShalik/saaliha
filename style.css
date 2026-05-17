@@ -1,0 +1,612 @@
+/* ================================================================
+   AMEENA'S MARK TRACKER — style.css
+   Warm Plum · Midnight · Soft Pastels
+   Nunito + DM Serif Display + JetBrains Mono
+   ================================================================ */
+
+:root {
+  /* Backgrounds */
+  --bg:        #0b0916;
+  --surface:   #110d1f;
+  --surface-2: #18142b;
+  --surface-3: #201b35;
+  --border:    #2a2245;
+  --border-2:  #342b55;
+
+  /* Text */
+  --text:      #e8e2f5;
+  --muted:     #6b5f8a;
+  --dim:       #342b55;
+
+  /* Biology — soft mint */
+  --bio:        #6ee7b7;
+  --bio-bg:     rgba(110,231,183,0.08);
+  --bio-glow:   rgba(110,231,183,0.15);
+  --bio-border: rgba(110,231,183,0.22);
+  --bio-btn:    #059669;
+
+  /* Physics — sky blue */
+  --phy:        #7dd3fc;
+  --phy-bg:     rgba(125,211,252,0.08);
+  --phy-glow:   rgba(125,211,252,0.15);
+  --phy-border: rgba(125,211,252,0.22);
+  --phy-btn:    #0284c7;
+
+  /* Chemistry — soft rose (not orange!) */
+  --chem:        #f9a8d4;
+  --chem-bg:     rgba(249,168,212,0.08);
+  --chem-glow:   rgba(249,168,212,0.15);
+  --chem-border: rgba(249,168,212,0.22);
+  --chem-btn:    #be185d;
+
+  /* Accent — lavender */
+  --accent:    #c084fc;
+  --accent-2:  #a855f7;
+
+  /* State */
+  --success:   #6ee7b7;
+  --danger:    #fca5a5;
+  --warning:   #fde68a;
+
+  /* Fonts */
+  --font:  'Nunito', sans-serif;
+  --serif: 'DM Serif Display', serif;
+  --mono:  'JetBrains Mono', monospace;
+
+  /* Radius */
+  --r:     14px;
+  --r-sm:  9px;
+  --r-xs:  5px;
+}
+
+/* ── RESET ── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── BACKGROUND ── */
+.bg-grid {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(192,132,252,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(192,132,252,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.bg-blob {
+  position: fixed; z-index: 0; pointer-events: none;
+  border-radius: 50%; filter: blur(100px);
+}
+.blob-1 { width:500px; height:500px; background: rgba(192,132,252,0.12); top:-180px; left:-180px; }
+.blob-2 { width:360px; height:360px; background: rgba(249,168,212,0.10); bottom:0; right:-100px; }
+.blob-3 { width:300px; height:300px; background: rgba(125,211,252,0.08); top:50%; left:60%; }
+
+/* ── LAYOUT ── */
+main {
+  position: relative; z-index: 1;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 44px 22px 100px;
+}
+
+/* ── HEADER ── */
+header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 36px;
+}
+
+.name-tag {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.name-sparkle {
+  font-size: 22px;
+  color: var(--accent);
+  margin-top: 4px;
+  filter: drop-shadow(0 0 8px var(--accent));
+  animation: twinkle 3s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%,100% { opacity:1; transform: scale(1);    }
+  50%      { opacity:0.5; transform: scale(0.8); }
+}
+
+h1 {
+  font-family: var(--serif);
+  font-size: 34px;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+  background: linear-gradient(135deg, #f3e8ff 0%, var(--accent) 60%, #f9a8d4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.header-sub {
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-top: 6px;
+  margin-left: 32px;
+}
+
+.session-status-pill {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border-2);
+  border-radius: 20px;
+  font-size: 11px;
+  color: var(--muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 6px;
+  font-weight: 600;
+}
+
+.sdot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--dim);
+  flex-shrink: 0;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+.sdot.active {
+  background: var(--success);
+  box-shadow: 0 0 6px var(--success);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+/* ── CARDS ── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 22px;
+  margin-bottom: 14px;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.35);
+  transition: border-color 0.2s;
+}
+
+.section-label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+/* ── SESSION CARD ── */
+.session-card { border-color: var(--border-2); }
+
+.session-hint {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.session-fields {
+  display: grid;
+  grid-template-columns: 1.5fr 1.2fr auto;
+  gap: 12px;
+  align-items: end;
+  margin-bottom: 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field label {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted);
+}
+
+.field input {
+  background: var(--surface-2);
+  border: 1px solid var(--border-2);
+  border-radius: var(--r-sm);
+  padding: 10px 13px;
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 600;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+}
+.field input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(192,132,252,0.12);
+}
+.field input::placeholder { color: var(--dim); font-weight: 400; }
+
+.session-btn {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--r-sm);
+  padding: 10px 18px;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s, transform 0.15s;
+  letter-spacing: 0.3px;
+}
+.session-btn:hover { background: var(--accent-2); transform: translateY(-1px); }
+
+/* Subject progress pills */
+.subject-progress-row {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 12px 16px;
+  background: var(--surface-2);
+  border-radius: var(--r-sm);
+  border: 1px solid var(--border);
+}
+
+.spill {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex: 1;
+  padding: 0 8px;
+}
+
+.spill-icon { font-size: 16px; }
+
+.spill-name {
+  font-size: 12px;
+  font-weight: 700;
+  flex: 1;
+}
+
+.spill-status {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--dim);
+  transition: color 0.3s;
+  font-family: var(--mono);
+}
+.spill-status.done { color: var(--success); }
+
+.spill-line {
+  width: 1px;
+  height: 28px;
+  background: var(--border);
+  flex-shrink: 0;
+}
+
+/* ── SUBJECT CARDS ── */
+.subject-card {
+  position: relative;
+  overflow: hidden;
+  opacity: 0.45;
+  transition: opacity 0.3s, border-color 0.2s, transform 0.2s;
+  pointer-events: none;
+}
+
+.subject-card.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.subject-card.active:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 32px rgba(0,0,0,0.4);
+}
+
+.subject-card.saved {
+  opacity: 0.65;
+  pointer-events: all; /* allow re-save if needed */
+}
+
+/* Subject colour bar */
+.subject-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 2px; border-radius: var(--r) var(--r) 0 0;
+}
+[data-subject="biology"]::before  { background: linear-gradient(90deg, var(--bio),  transparent); }
+[data-subject="physics"]::before  { background: linear-gradient(90deg, var(--phy),  transparent); }
+[data-subject="chemistry"]::before { background: linear-gradient(90deg, var(--chem), transparent); }
+
+/* Subject top row */
+.subject-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.subject-icon-wrap {
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 19px; flex-shrink: 0;
+}
+.bio-wrap  { background: var(--bio-bg);  border: 1px solid var(--bio-border);  }
+.phy-wrap  { background: var(--phy-bg);  border: 1px solid var(--phy-border);  }
+.chem-wrap { background: var(--chem-bg); border: 1px solid var(--chem-border); }
+
+.subject-title-col { flex: 1; }
+.subject-title-col h2 { font-size: 16px; font-weight: 800; letter-spacing: -0.2px; }
+
+.subject-date-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 5px;
+}
+.date-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.date-input {
+  background: var(--surface-3);
+  border: 1px solid var(--border-2);
+  border-radius: var(--r-xs);
+  padding: 4px 9px;
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 600;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.date-input:focus { border-color: var(--accent); }
+
+.subject-total-col {
+  text-align: right;
+  flex-shrink: 0;
+}
+.total-num {
+  font-family: var(--mono);
+  font-size: 15px;
+  font-weight: 600;
+  display: block;
+  color: var(--muted);
+  transition: color 0.3s;
+}
+[data-subject="biology"]  .total-num { color: var(--bio);  }
+[data-subject="physics"]  .total-num { color: var(--phy);  }
+[data-subject="chemistry"].total-num { color: var(--chem); }
+
+.total-sub { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; }
+
+/* Saved badge */
+.saved-badge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 800;
+  background: rgba(110,231,183,0.15);
+  border: 1px solid rgba(110,231,183,0.3);
+  color: var(--success);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.saved-badge.hidden { display: none; }
+
+/* Papers */
+.papers-head-row {
+  display: grid;
+  grid-template-columns: 1fr 52px 46px 36px 52px;
+  gap: 6px;
+  padding: 0 0 7px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 6px;
+  font-size: 9px;
+  font-family: var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--dim);
+}
+
+.papers-head-row .center { text-align: center; }
+.papers-head-row .right  { text-align: right;  }
+
+.paper-rows { display: flex; flex-direction: column; gap: 0; margin-bottom: 14px; }
+
+.paper-row {
+  display: grid;
+  grid-template-columns: 1fr 52px 46px 36px 52px;
+  gap: 6px;
+  align-items: center;
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.025);
+}
+.paper-row:last-child { border-bottom: none; }
+
+.pl {
+  font-size: 11px;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+/* Marks input */
+.mi, .xi, .ai {
+  background: var(--surface-3);
+  border: 1px solid var(--border-2);
+  border-radius: var(--r-xs);
+  padding: 5px 6px;
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 500;
+  text-align: center;
+  outline: none;
+  width: 100%;
+  -moz-appearance: textfield;
+  transition: border-color 0.15s;
+}
+.mi::-webkit-outer-spin-button, .mi::-webkit-inner-spin-button,
+.xi::-webkit-outer-spin-button, .xi::-webkit-inner-spin-button,
+.ai::-webkit-outer-spin-button, .ai::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+.xi { color: var(--muted); font-size: 11px; }
+.ai { color: var(--accent); font-size: 11px; background: rgba(192,132,252,0.06); border-color: rgba(192,132,252,0.2); }
+.ai:focus { border-color: var(--accent); }
+
+[data-subject="biology"]  .mi:focus { border-color: var(--bio);  }
+[data-subject="physics"]  .mi:focus { border-color: var(--phy);  }
+[data-subject="chemistry"].mi:focus { border-color: var(--chem); }
+
+.pc {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  text-align: right;
+  color: var(--dim);
+  transition: color 0.2s;
+}
+
+/* Subject footer */
+.subject-footer {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.sub-prog-wrap { flex: 1; display: flex; align-items: center; gap: 10px; }
+
+.sub-prog-track {
+  flex: 1; height: 5px;
+  background: var(--surface-3);
+  border-radius: 5px; overflow: hidden;
+}
+.sub-prog-fill {
+  height: 100%; border-radius: 5px;
+  transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+.bio-fill  { background: linear-gradient(90deg, #059669, var(--bio));  }
+.phy-fill  { background: linear-gradient(90deg, #0284c7, var(--phy));  }
+.chem-fill { background: linear-gradient(90deg, #be185d, var(--chem)); }
+
+.sub-grade {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--muted);
+  min-width: 14px;
+  text-align: right;
+  transition: color 0.3s;
+}
+
+/* Save subject buttons */
+.save-subject-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: none;
+  border-radius: var(--r-sm);
+  padding: 9px 18px;
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  white-space: nowrap;
+  letter-spacing: 0.3px;
+  transition: transform 0.15s, box-shadow 0.2s, opacity 0.2s;
+  color: white;
+}
+.save-subject-btn:hover:not(:disabled) { transform: translateY(-2px); }
+.save-subject-btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
+
+.bio-btn  { background: var(--bio-btn);  box-shadow: 0 4px 16px rgba(5,150,105,0.3);  }
+.phy-btn  { background: var(--phy-btn);  box-shadow: 0 4px 16px rgba(2,132,199,0.3);  }
+.chem-btn { background: var(--chem-btn); box-shadow: 0 4px 16px rgba(190,24,93,0.3);  }
+
+.bio-btn:hover:not(:disabled)  { box-shadow: 0 6px 20px rgba(5,150,105,0.4);  }
+.phy-btn:hover:not(:disabled)  { box-shadow: 0 6px 20px rgba(2,132,199,0.4);  }
+.chem-btn:hover:not(:disabled) { box-shadow: 0 6px 20px rgba(190,24,93,0.4); }
+
+/* Subject status */
+.subject-status {
+  margin-top: 12px;
+  padding: 10px 14px;
+  border-radius: var(--r-xs);
+  font-size: 12px;
+  font-weight: 600;
+  animation: fadeUp 0.3s ease;
+}
+.subject-status.success {
+  background: rgba(110,231,183,0.1);
+  border: 1px solid rgba(110,231,183,0.25);
+  color: var(--success);
+}
+.subject-status.error {
+  background: rgba(252,165,165,0.1);
+  border: 1px solid rgba(252,165,165,0.25);
+  color: var(--danger);
+}
+.subject-status.hidden { display: none; }
+
+@keyframes fadeUp {
+  from { opacity:0; transform: translateY(6px); }
+  to   { opacity:1; transform: translateY(0);   }
+}
+
+/* ── HISTORY ── */
+.history-card { margin-top: 10px; }
+.history-item {
+  display: grid;
+  grid-template-columns: 90px 1fr 80px 80px 80px 56px;
+  gap: 8px;
+  align-items: center;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 11px;
+}
+.history-item:last-child { border-bottom: none; }
+.hi-date { font-family: var(--mono); color: var(--muted); font-size: 10px; }
+.hi-name { font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hi-sub  { font-family: var(--mono); font-size: 10px; font-weight: 600; text-align: center; }
+.hi-pct  { font-family: var(--mono); font-size: 12px; font-weight: 800; text-align: right; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  h1 { font-size: 26px; }
+  .session-fields { grid-template-columns: 1fr 1fr; }
+  .session-btn { grid-column: 1 / -1; }
+  main { padding: 28px 14px 80px; }
+  header { flex-direction: column; }
+  .papers-head-row { display: none; }
+  .paper-row { grid-template-columns: 1fr 48px 40px 30px 44px; }
+  .history-item { grid-template-columns: 80px 1fr 56px; }
+  .hi-sub { display: none; }
+}
