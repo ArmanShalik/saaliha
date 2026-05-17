@@ -4,7 +4,7 @@
 // ================================================================
 
 // !! REPLACE WITH YOUR GOOGLE APPS SCRIPT WEB APP URL !!
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz1KXYIflhk-Q2sPZUSTjUNhLhxE4sdb2Vwav5RvOdBksU6QHLFUBvaFpjflABAVwoNmA/exec';
 
 const SESSION_KEY  = 'marktracker_session';
 const HISTORY_KEY  = 'marktracker_history';
