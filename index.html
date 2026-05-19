@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ExamTrack — Science Results Portal</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<!-- ── Navigation ─────────────────────────────────────────── -->
+<nav class="nav">
+  <a class="nav-brand" href="#">
+    <div class="brand-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round">
+        <path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/>
+      </svg>
+    </div>
+    <div>
+      <div class="brand-name">ExamTrack</div>
+      <div class="brand-sub">Science Portal</div>
+    </div>
+  </a>
+
+  <div class="nav-tabs">
+    <button class="nav-tab active" data-tab="dashboard">Dashboard</button>
+    <button class="nav-tab" data-tab="history">History</button>
+    <button class="nav-tab" data-tab="analytics">Analytics</button>
+  </div>
+
+  <div class="nav-actions">
+    <button class="sync-btn" id="syncBtn" title="Sync with Google Sheets">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M23 4v6h-6"/><path d="M1 20v-6h6"/>
+        <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/>
+      </svg>
+      Sync
+    </button>
+    <button class="add-btn" id="addBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+      </svg>
+      Add Entry
+    </button>
+  </div>
+</nav>
+
+
+<!-- ── Page ───────────────────────────────────────────────── -->
+<div class="page">
+
+  <!-- ── Dashboard ─────────────────────────────────────────── -->
+  <div class="tab-panel active" data-panel="dashboard">
+    <div class="container">
+
+      <div class="dash-header">
+        <h1>Results Dashboard — <span id="studentName">Student</span></h1>
+        <p>Track, analyse, and improve — Biology · Physics · Chemistry</p>
+      </div>
+
+      <!-- Stats strip -->
+      <div class="stats-strip">
+        <div class="stat-card" style="--accent-color:#1D4ED8">
+          <div class="stat-label">Total Entries</div>
+          <div class="stat-value" id="statTotal">0</div>
+          <div class="stat-sub">across all subjects</div>
+        </div>
+        <div class="stat-card" style="--accent-color:#0EA5E9">
+          <div class="stat-label">Overall Average</div>
+          <div class="stat-value" id="statAvg">—</div>
+          <div class="stat-sub">combined percentage</div>
+        </div>
+        <div class="stat-card" style="--accent-color:#047857">
+          <div class="stat-label">Best Subject</div>
+          <div class="stat-value" style="font-size:18px;font-family:var(--font-head)" id="statBest">—</div>
+          <div class="stat-sub">highest average</div>
+        </div>
+        <div class="stat-card" style="--accent-color:#D97706">
+          <div class="stat-label">Pending Sync</div>
+          <div class="stat-value" id="statPending">0</div>
+          <div class="stat-sub">not yet in Sheets</div>
+        </div>
+      </div>
+
+      <!-- Subject cards -->
+      <div class="subject-grid">
+
+        <!-- Biology -->
+        <div class="subject-card" id="card-biology">
+          <div class="sc-header">
+            <span class="sc-tag">BIO</span>
+            <div class="sc-avg" id="card-biology-avg">
+              <span class="avg-num" style="color:var(--text-faint)">—</span>
+            </div>
+          </div>
+          <div class="sc-name">Biology</div>
+          <div class="sc-count" id="card-biology-count">0 entries</div>
+          <div class="paper-bars" id="card-biology-bars"></div>
+          <div class="sc-chart-wrap"><canvas id="card-biology-chart"></canvas></div>
+        </div>
+
+        <!-- Physics -->
+        <div class="subject-card" id="card-physics">
+          <div class="sc-header">
+            <span class="sc-tag">PHY</span>
+            <div class="sc-avg" id="card-physics-avg">
+              <span class="avg-num" style="color:var(--text-faint)">—</span>
+            </div>
+          </div>
+          <div class="sc-name">Physics</div>
+          <div class="sc-count" id="card-physics-count">0 entries</div>
+          <div class="paper-bars" id="card-physics-bars"></div>
+          <div class="sc-chart-wrap"><canvas id="card-physics-chart"></canvas></div>
+        </div>
+
+        <!-- Chemistry -->
+        <div class="subject-card" id="card-chemistry">
+          <div class="sc-header">
+            <span class="sc-tag">CHE</span>
+            <div class="sc-avg" id="card-chemistry-avg">
+              <span class="avg-num" style="color:var(--text-faint)">—</span>
+            </div>
+          </div>
+          <div class="sc-name">Chemistry</div>
+          <div class="sc-count" id="card-chemistry-count">0 entries</div>
+          <div class="paper-bars" id="card-chemistry-bars"></div>
+          <div class="sc-chart-wrap"><canvas id="card-chemistry-chart"></canvas></div>
+        </div>
+
+      </div>
+
+      <!-- Recent entries -->
+      <div class="section-header">
+        <span class="section-title">Recent Entries</span>
+        <span class="section-link" onclick="switchTab('history')">View all &rarr;</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>Subject</th><th>Paper</th><th>Exam Type</th>
+            <th>Date</th><th>Marks</th><th>%</th><th>Grade</th><th></th>
+          </tr></thead>
+          <tbody id="recentTbody"></tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ── History ────────────────────────────────────────────── -->
+  <div class="tab-panel" data-panel="history">
+    <div class="container">
+
+      <div class="dash-header">
+        <h1>Full History</h1>
+        <p id="histCount">All entries</p>
+      </div>
+
+      <div class="filter-bar">
+        <div class="filter-group">
+          <label class="filter-label">Subject</label>
+          <select class="filter-select" id="histSubject">
+            <option value="ALL">All Subjects</option>
+            <option value="BIOLOGY">Biology</option>
+            <option value="PHYSICS">Physics</option>
+            <option value="CHEMISTRY">Chemistry</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label">Paper</label>
+          <select class="filter-select" id="histPaper">
+            <option value="ALL">All Papers</option>
+            <option value="P1">Paper I</option>
+            <option value="P2">Paper II</option>
+            <option value="P3">Paper III</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label">Exam Type</label>
+          <select class="filter-select" id="histExam">
+            <option value="ALL">All Types</option>
+            <option>Class Test</option>
+            <option>Monthly Test</option>
+            <option>Term Exam</option>
+            <option>Mock Exam</option>
+            <option>Trial Exam</option>
+            <option>Past Paper Practice</option>
+            <option>Model Paper</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>Subject</th><th>Paper</th><th>Exam Type</th>
+            <th>Date</th><th>Marks</th><th>%</th><th>Grade</th><th></th>
+          </tr></thead>
+          <tbody id="histTbody"></tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ── Analytics ──────────────────────────────────────────── -->
+  <div class="tab-panel" data-panel="analytics">
+    <div class="container">
+
+      <div class="dash-header">
+        <h1>Analytics</h1>
+        <p>Visualise trends, compare papers, and track improvement over time.</p>
+      </div>
+
+      <div class="analytics-grid">
+        <div class="chart-card">
+          <div class="card-title">Performance Over Time — All Subjects</div>
+          <canvas id="progressChart" style="max-height:260px"></canvas>
+        </div>
+        <div class="chart-card">
+          <div class="card-title">Subject Averages</div>
+          <canvas id="compareChart" style="max-height:260px"></canvas>
+        </div>
+      </div>
+
+      <div class="analytics-bottom">
+        <div class="chart-card">
+          <div class="card-title" style="color:var(--bio)">Biology — Paper Scores</div>
+          <canvas id="detail-biology" style="max-height:200px"></canvas>
+        </div>
+        <div class="chart-card">
+          <div class="card-title" style="color:var(--phy)">Physics — Paper Scores</div>
+          <canvas id="detail-physics" style="max-height:200px"></canvas>
+        </div>
+        <div class="chart-card">
+          <div class="card-title" style="color:var(--chem)">Chemistry — Paper Scores</div>
+          <canvas id="detail-chemistry" style="max-height:200px"></canvas>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+
+<!-- ── Add Entry Modal ─────────────────────────────────────── -->
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title">Add Exam Result</div>
+        <div class="modal-subtitle">Enter the marks from your result sheet</div>
+      </div>
+      <button class="modal-close" id="modalClose" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <form id="entryForm" autocomplete="off">
+
+        <!-- Subject selection -->
+        <div class="subject-tabs">
+          <button type="button" class="subj-tab" data-subject="BIOLOGY">Biology</button>
+          <button type="button" class="subj-tab" data-subject="PHYSICS">Physics</button>
+          <button type="button" class="subj-tab" data-subject="CHEMISTRY">Chemistry</button>
+        </div>
+
+        <div class="form-grid">
+          <!-- Paper & Exam Type -->
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="fPaper">Paper</label>
+              <select class="form-select" id="fPaper" required></select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fExamType">Exam Type</label>
+              <select class="form-select" id="fExamType" required>
+                <option value="">Select type...</option>
+                <option>Class Test</option>
+                <option>Monthly Test</option>
+                <option>Term Exam</option>
+                <option>Mock Exam</option>
+                <option>Trial Exam</option>
+                <option>Past Paper Practice</option>
+                <option>Model Paper</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Date -->
+          <div class="form-group">
+            <label class="form-label" for="fDate">Exam Date</label>
+            <input class="form-input" type="date" id="fDate" required>
+          </div>
+
+          <!-- Marks -->
+          <div class="form-group">
+            <label class="form-label">Marks Obtained / Total</label>
+            <div class="marks-row">
+              <input class="form-input" type="number" id="fMarks" placeholder="e.g. 78" min="0" step="0.5" required>
+              <div class="marks-sep">/</div>
+              <input class="form-input" type="number" id="fTotal" placeholder="e.g. 100" min="1" step="1" required>
+            </div>
+          </div>
+
+          <!-- Live preview -->
+          <div class="preview-bar" id="previewBar" style="display:none">
+            <span class="preview-pct" id="previewPct">—</span>
+            <div class="preview-track"><div class="preview-fill" id="previewFill"></div></div>
+            <span class="preview-grade" id="previewGrade">—</span>
+          </div>
+
+          <!-- Notes -->
+          <div class="form-group">
+            <label class="form-label" for="fNotes">Notes <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text-faint)">(optional)</span></label>
+            <textarea class="form-textarea" id="fNotes" placeholder="e.g. missed photosynthesis questions…"></textarea>
+          </div>
+        </div>
+
+      </form>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-ghost" id="modalCancel">Cancel</button>
+      <button type="submit" form="entryForm" class="btn btn-primary">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="width:14px;height:14px">
+          <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/>
+        </svg>
+        Save Entry
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ── Notifications ───────────────────────────────────────── -->
+<div class="notif-wrap" id="notifWrap"></div>
+
+
+<!-- ── Scripts ────────────────────────────────────────────── -->
+<script src="config.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
