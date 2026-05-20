@@ -2,531 +2,320 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>ExamTrack — Ameena Saaliha</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Source+Sans+3:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ExamTrack — Dr. Ameena Saaliha</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<style>
-/* ================================================================
-   EXAMTRACK v4
-   ================================================================ */
-:root {
-  --bg:#EEF2FF; --card:#fff; --subtle:#F5F7FF;
-  --border:#DDE3F5; --borderS:#B8C4E8;
-  --text:#0D1526; --mid:#2D3748; --muted:#64748B; --faint:#94A3B8;
-  --primary:#1E3A8A; --pMid:#2563EB; --pLight:#DBEAFE;
-  --bio:#059669; --bioL:#ECFDF5;
-  --phy:#2563EB; --phyL:#EFF6FF;
-  --chem:#7C3AED; --chemL:#F5F3FF;
-  --ok:#059669; --warn:#D97706; --err:#DC2626;
-  --r:14px; --rS:9px; --rL:18px; --rXL:24px;
-  --sh:0 1px 4px rgba(15,23,42,.07),0 4px 16px rgba(15,23,42,.07);
-  --shM:0 4px 12px rgba(15,23,42,.10),0 12px 40px rgba(15,23,42,.11);
-  --shL:0 12px 40px rgba(15,23,42,.16),0 2px 8px rgba(15,23,42,.08);
-  --fH:'Montserrat',sans-serif; --fB:'Source Sans 3',sans-serif; --fM:'JetBrains Mono',monospace;
-  --ease:.22s cubic-bezier(.4,0,.2,1);
-  --nav:64px; --mob:60px;
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{font-family:var(--fB);background:var(--bg);color:var(--text);font-size:15px;line-height:1.6;min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-
-/* ── ANIMATED BACKGROUND SCENE ── */
-#bgScene{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-
-/* Dot grid */
-.bg-grid{position:absolute;inset:0;
-  background-image:radial-gradient(circle,rgba(37,99,235,.18) 1px,transparent 1px);
-  background-size:32px 32px;
-  animation:gridPulse 7s ease-in-out infinite}
-@keyframes gridPulse{0%,100%{opacity:.5}50%{opacity:1}}
-
-/* Gradient orbs */
-.orb{position:absolute;border-radius:50%;filter:blur(70px);animation:orbDrift ease-in-out infinite}
-.orb1{width:520px;height:520px;background:radial-gradient(circle,rgba(37,99,235,.11),transparent 70%);top:-180px;left:-160px;animation-duration:22s}
-.orb2{width:400px;height:400px;background:radial-gradient(circle,rgba(124,58,237,.09),transparent 70%);bottom:-120px;right:-120px;animation-duration:18s;animation-delay:-7s}
-.orb3{width:320px;height:320px;background:radial-gradient(circle,rgba(5,150,105,.08),transparent 70%);top:45%;left:55%;animation-duration:26s;animation-delay:-12s}
-@keyframes orbDrift{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(28px,-22px) scale(1.04)}66%{transform:translate(-18px,28px) scale(.97)}}
-
-/* Floating particles — injected by JS */
-.pt{position:absolute;border-radius:50%;animation:ptFloat linear infinite}
-@keyframes ptFloat{0%{opacity:0;transform:translateY(0) scale(1)}15%{opacity:1}85%{opacity:.6}100%{opacity:0;transform:translateY(-90px) scale(.7)}}
-
-/* Atom rings — placed in corners */
-.atom{position:absolute}
-.atom svg{animation:atomSpin linear infinite}
-.atom-tl{top:-60px;left:-60px}.atom-tl svg{animation-duration:50s;opacity:.18}
-.atom-br{bottom:-60px;right:-60px}.atom-br svg{animation-duration:38s;animation-direction:reverse;opacity:.14}
-@keyframes atomSpin{to{transform:rotate(360deg)}}
-
-/* Background formulas */
-.bg-formula{position:absolute;font-family:var(--fM);font-size:11px;font-weight:500;color:rgba(37,99,235,.09);pointer-events:none;animation:formulaDrift ease-in-out infinite;white-space:nowrap}
-@keyframes formulaDrift{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-
-/* ── NAV ── */
-nav.topnav{position:sticky;top:0;z-index:200;height:var(--nav);
-  background:rgba(255,255,255,.93);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;gap:20px}
-.brand{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
-.brand-ico{width:38px;height:38px;background:linear-gradient(135deg,var(--primary),var(--pMid));
-  border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(30,58,138,.3)}
-.brand-ico svg{width:20px;height:20px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round}
-.brand-name{font-family:var(--fH);font-weight:900;font-size:17px;color:var(--primary);letter-spacing:-.5px;line-height:1}
-.brand-sub{font-size:10px;color:var(--muted);letter-spacing:.7px;text-transform:uppercase;font-family:var(--fH);font-weight:600;margin-top:1px}
-.nav-tabs{display:flex;gap:2px;flex:1}
-.tab-btn{padding:8px 15px;border-radius:var(--rS);font-family:var(--fH);font-size:12.5px;font-weight:700;color:var(--muted);cursor:pointer;border:none;background:none;transition:var(--ease);position:relative}
-.tab-btn:hover{color:var(--primary);background:var(--pLight)}
-.tab-btn.active{color:var(--primary);background:var(--pLight)}
-.tab-btn.active::after{content:'';position:absolute;bottom:-1px;left:10px;right:10px;height:2.5px;background:var(--pMid);border-radius:2px}
-.nav-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
-.sync-btn{display:flex;align-items:center;gap:6px;padding:8px 13px;border-radius:var(--rS);border:1px solid var(--borderS);background:var(--card);font-family:var(--fH);font-size:12px;font-weight:600;color:var(--mid);cursor:pointer;transition:var(--ease)}
-.sync-btn:hover{border-color:var(--pMid);color:var(--primary);background:var(--pLight)}
-.sync-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
-.sync-btn.spin svg{animation:rot .8s linear infinite}
-.add-btn{display:flex;align-items:center;gap:7px;padding:9px 17px;border-radius:var(--rS);border:none;background:linear-gradient(135deg,var(--primary),var(--pMid));color:#fff;font-family:var(--fH);font-size:13px;font-weight:700;cursor:pointer;transition:var(--ease);box-shadow:0 2px 10px rgba(30,58,138,.3)}
-.add-btn:hover{transform:translateY(-1px);box-shadow:0 5px 18px rgba(30,58,138,.35)}
-.add-btn svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round}
-
-/* ── MOBILE BOTTOM NAV ── */
-.mob-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:200;height:var(--mob);
-  background:rgba(255,255,255,.96);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  border-top:1px solid var(--border);padding:0 4px;padding-bottom:env(safe-area-inset-bottom,0px);
-  align-items:center;justify-content:space-around;box-shadow:0 -4px 20px rgba(15,23,42,.08)}
-.mob-tab{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 12px;border-radius:12px;border:none;background:none;cursor:pointer;font-family:var(--fH);font-size:9.5px;font-weight:700;color:var(--muted);transition:var(--ease);text-transform:uppercase;letter-spacing:.4px;flex:1}
-.mob-tab:hover,.mob-tab.active{color:var(--primary);background:var(--pLight)}
-.mob-tab svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
-.mob-tab.active svg{stroke:var(--primary)}
-
-.fab{display:none;position:fixed;right:18px;z-index:190;width:56px;height:56px;border-radius:50%;border:none;background:linear-gradient(135deg,var(--primary),var(--pMid));color:#fff;cursor:pointer;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(30,58,138,.4);transition:var(--ease)}
-.fab:hover{transform:scale(1.08)} .fab:active{transform:scale(.96)}
-.fab svg{width:24px;height:24px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round}
-
-/* ── PANELS ── */
-.page{position:relative;z-index:1}
-.panel{display:none;padding:28px 0 80px}
-.panel.active{display:block}
-.wrap{max-width:1140px;margin:0 auto;padding:0 20px}
-.ph{margin-bottom:24px}
-.ph h1{font-family:var(--fH);font-size:24px;font-weight:800;letter-spacing:-.5px;line-height:1.2}
-.ph h1 span{color:var(--pMid)}
-.ph p{color:var(--muted);font-size:13.5px;margin-top:4px}
-
-/* ── HERO (mobile) ── */
-.hero{background:linear-gradient(135deg,#1E3A8A 0%,#2563EB 55%,#7C3AED 100%);border-radius:var(--rL);padding:20px 22px;margin-bottom:18px;display:none;align-items:center;justify-content:space-between;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:-25px;right:-25px;width:130px;height:130px;border-radius:50%;background:rgba(255,255,255,.07)}
-.hero::after{content:'';position:absolute;bottom:-35px;left:25%;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,.05)}
-.hero-name{font-family:var(--fH);font-size:19px;font-weight:900;color:#fff;letter-spacing:-.4px}
-.hero-sub{font-size:11px;color:rgba(255,255,255,.65);margin-top:2px;font-family:var(--fH);font-weight:500}
-.hero-avg{font-family:var(--fM);font-size:30px;font-weight:600;color:#fff;text-align:right;line-height:1}
-.hero-avg-lbl{font-size:9px;color:rgba(255,255,255,.6);letter-spacing:.6px;text-transform:uppercase;font-family:var(--fH);font-weight:600;margin-top:2px;text-align:right}
-
-/* ── STATS STRIP ── */
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
-.stat{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px;box-shadow:var(--sh);position:relative;overflow:hidden;transition:var(--ease)}
-.stat:hover{box-shadow:var(--shM);transform:translateY(-2px)}
-.stat::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--ac,var(--pMid))}
-.stat-lbl{font-family:var(--fH);font-size:10px;font-weight:700;color:var(--faint);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px}
-.stat-val{font-family:var(--fM);font-size:26px;font-weight:600;color:var(--text);line-height:1}
-.stat-sub{font-size:11.5px;color:var(--muted);margin-top:6px}
-
-/* ── SUBJECT GRID ── */
-.subj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:24px}
-.scard{background:var(--card);border:1px solid var(--border);border-radius:var(--rL);padding:22px;box-shadow:var(--sh);transition:var(--ease);position:relative;overflow:hidden}
-.scard:hover{box-shadow:var(--shM);transform:translateY(-2px)}
-.scard::before{content:'';position:absolute;top:0;left:0;bottom:0;width:4px;border-radius:var(--rL) 0 0 var(--rL);background:var(--cC)}
-.scard::after{content:'';position:absolute;top:-28px;right:-28px;width:110px;height:110px;border-radius:50%;background:var(--cL);opacity:.7;pointer-events:none}
-.sc-hd{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
-.sc-tag{font-family:var(--fM);font-size:10px;font-weight:600;padding:4px 9px;border-radius:6px;background:var(--cL);color:var(--cC);letter-spacing:.9px}
-.sc-avg-n{font-family:var(--fM);font-size:30px;font-weight:600;color:var(--cC);line-height:1;text-align:right}
-.sc-avg-u{font-size:13px;color:var(--muted)}
-.sc-avg-g{display:inline-block;font-family:var(--fH);font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;background:var(--cL);color:var(--cC);margin-top:3px}
-.sc-name{font-family:var(--fH);font-size:18px;font-weight:800;letter-spacing:-.3px;margin-bottom:3px}
-.sc-cnt{font-size:12px;color:var(--muted);margin-bottom:14px}
-.pb-rows{display:flex;flex-direction:column;gap:7px;margin-bottom:14px}
-.pb-row{display:flex;align-items:center;gap:8px}
-.pb-lbl{font-family:var(--fM);font-size:10px;font-weight:600;color:var(--muted);width:20px;flex-shrink:0}
-.pb-track{flex:1;height:7px;background:var(--cL);border-radius:4px;overflow:hidden}
-.pb-fill{height:100%;background:var(--cC);border-radius:4px;transition:width .7s cubic-bezier(.4,0,.2,1)}
-.pb-pct{font-family:var(--fM);font-size:10px;font-weight:600;color:var(--muted);width:32px;text-align:right;flex-shrink:0}
-.sc-chart-wrap{height:68px;margin-top:4px;position:relative}
-
-/* ── SECTION HEADER ── */
-.sec-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.sec-ttl{font-family:var(--fH);font-size:14px;font-weight:800}
-.sec-lnk{font-family:var(--fH);font-size:12px;font-weight:600;color:var(--pMid);cursor:pointer;background:none;border:none;padding:0;transition:var(--ease)}
-.sec-lnk:hover{text-decoration:underline}
-
-/* ── TABLE ── */
-.tbl-wrap{background:var(--card);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden}
-.tbl-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
-table{width:100%;border-collapse:collapse;min-width:580px}
-thead tr{background:linear-gradient(to right,var(--subtle),#EEF2FF);border-bottom:1.5px solid var(--border)}
-thead th{font-family:var(--fH);font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;padding:11px 13px;text-align:left;white-space:nowrap}
-tbody tr{border-bottom:1px solid var(--border);transition:var(--ease)}
-tbody tr:last-child{border-bottom:none}
-tbody tr:hover{background:var(--subtle)}
-tbody td{padding:11px 13px;font-size:13px;color:var(--mid);vertical-align:middle}
-.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-family:var(--fH);font-size:11px;font-weight:700}
-.badge.bio{background:var(--bioL);color:var(--bio)}
-.badge.phy{background:var(--phyL);color:var(--phy)}
-.badge.che{background:var(--chemL);color:var(--chem)}
-.bdot{width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0}
-.mono{font-family:var(--fM);font-size:12.5px}
-.datemono{font-family:var(--fM);font-size:11.5px;color:var(--muted)}
-.gchip{display:inline-flex;align-items:center;justify-content:center;width:26px;height:22px;border-radius:6px;font-family:var(--fH);font-size:11px;font-weight:800}
-.del-btn{width:28px;height:28px;border-radius:6px;border:1px solid var(--border);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--faint);transition:var(--ease)}
-.del-btn:hover{border-color:#FCA5A5;background:#FEF2F2;color:var(--err)}
-.del-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
-/* Paper mini-chips inside table */
-.pmini{display:inline-block;font-family:var(--fM);font-size:10.5px;background:var(--subtle);border:1px solid var(--border);border-radius:5px;padding:1px 6px;margin:1px 2px 1px 0;color:var(--mid);white-space:nowrap}
-
-/* ── ENTRY CARDS (mobile) ── */
-.entry-cards{display:none;flex-direction:column;gap:10px}
-.ecard{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px 15px;box-shadow:var(--sh);position:relative;border-left:4px solid var(--ec,var(--border));transition:var(--ease)}
-.ecard:active{background:var(--subtle)}
-.ecard-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
-.ecard-badges{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:4px}
-.ecard-name{font-family:var(--fH);font-size:13.5px;font-weight:700;color:var(--text)}
-.ecard-date{font-family:var(--fM);font-size:11px;color:var(--muted)}
-.ecard-pct{font-family:var(--fM);font-size:22px;font-weight:600;line-height:1}
-.ecard-grade{font-family:var(--fH);font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;display:block;text-align:right;margin-top:3px}
-.ecard-papers{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
-.ecard-bar{height:5px;background:var(--border);border-radius:3px;overflow:hidden;margin-top:8px}
-.ecard-fill{height:100%;border-radius:3px;transition:width .6s cubic-bezier(.4,0,.2,1)}
-.ecard-foot{display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
-.ecard-marks{font-family:var(--fM);font-size:11.5px;color:var(--muted)}
-.ecard-del{width:28px;height:28px;border-radius:7px;border:1px solid var(--border);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--faint);transition:var(--ease)}
-.ecard-del:hover{border-color:#FCA5A5;background:#FEF2F2;color:var(--err)}
-.ecard-del svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
-
-/* ── EMPTY STATE ── */
-.empty{text-align:center;padding:48px 20px}
-.empty svg{width:44px;height:44px;color:var(--faint);margin-bottom:12px;stroke:currentColor;fill:none;stroke-width:1.5}
-.empty h3{font-family:var(--fH);font-size:14px;font-weight:700;color:var(--mid);margin-bottom:5px}
-.empty p{font-size:13px;color:var(--muted)}
-
-/* ── FILTERS ── */
-.filters{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;align-items:flex-end}
-.fg{display:flex;flex-direction:column;gap:4px;flex:1;min-width:120px}
-.flbl{font-family:var(--fH);font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.7px}
-.fsel{padding:9px 12px;border:1.5px solid var(--borderS);border-radius:var(--rS);background:var(--card);font-family:var(--fB);font-size:13px;color:var(--text);outline:none;transition:var(--ease);appearance:none;-webkit-appearance:none;width:100%}
-.fsel:focus{border-color:var(--pMid);box-shadow:0 0 0 3px rgba(37,99,235,.12)}
-
-/* ── ANALYTICS ── */
-.ag{display:grid;grid-template-columns:2fr 1fr;gap:18px;margin-bottom:18px}
-.ab{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.cc{background:var(--card);border:1px solid var(--border);border-radius:var(--rL);padding:22px;box-shadow:var(--sh)}
-.cc-ttl{font-family:var(--fH);font-size:13px;font-weight:700;margin-bottom:16px}
-/* CRITICAL: chart container must have explicit height */
-.ch-wrap{position:relative;width:100%;height:240px}
-.ch-wrap-sm{position:relative;width:100%;height:190px}
-
-/* ── MODAL ── */
-.overlay{position:fixed;inset:0;background:rgba(10,18,40,.5);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:300;display:none;align-items:flex-end;justify-content:center}
-.overlay.open{display:flex;animation:fadeIn .18s ease}
-.modal{background:var(--card);border-radius:var(--rXL) var(--rXL) 0 0;box-shadow:var(--shL);width:100%;max-width:560px;max-height:93vh;overflow-y:auto;animation:slideUpM .26s cubic-bezier(.34,1.2,.64,1);padding-bottom:env(safe-area-inset-bottom,0px)}
-.modal-handle{width:40px;height:4px;background:var(--borderS);border-radius:2px;margin:12px auto 4px}
-.mhd{padding:16px 24px 0;display:flex;justify-content:space-between;align-items:flex-start}
-.mttl{font-family:var(--fH);font-size:18px;font-weight:800;letter-spacing:-.3px}
-.msubt{font-size:13px;color:var(--muted);margin-top:2px}
-.mclose{width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);transition:var(--ease);flex-shrink:0}
-.mclose:hover{background:var(--subtle);color:var(--text)}
-.mclose svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
-.mbdy{padding:20px 24px}
-.mftr{padding:0 24px 20px;display:flex;gap:10px;justify-content:flex-end}
-
-/* ── FORM ── */
-.subj-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:18px;background:var(--subtle);padding:5px;border-radius:var(--r);border:1px solid var(--border)}
-.stab{padding:10px 6px;border-radius:8px;border:none;background:none;cursor:pointer;font-family:var(--fH);font-size:12px;font-weight:700;color:var(--muted);text-align:center;transition:var(--ease)}
-.stab:hover{color:var(--text);background:var(--card)}
-.stab.active-bio{background:var(--bioL);color:var(--bio);box-shadow:0 1px 4px rgba(5,150,105,.2)}
-.stab.active-phy{background:var(--phyL);color:var(--phy);box-shadow:0 1px 4px rgba(37,99,235,.2)}
-.stab.active-che{background:var(--chemL);color:var(--chem);box-shadow:0 1px 4px rgba(124,58,237,.2)}
-
-.fgrid{display:grid;gap:14px}
-.frow{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.fg2{display:flex;flex-direction:column;gap:6px}
-.flbl2{font-family:var(--fH);font-size:10px;font-weight:700;color:var(--mid);text-transform:uppercase;letter-spacing:.7px}
-.finput,.fsel2,.ftarea{padding:11px 13px;border:1.5px solid var(--borderS);border-radius:var(--rS);background:var(--card);font-family:var(--fB);font-size:15px;color:var(--text);outline:none;transition:var(--ease);appearance:none;-webkit-appearance:none;width:100%}
-.finput:focus,.fsel2:focus,.ftarea:focus{border-color:var(--pMid);box-shadow:0 0 0 3px rgba(37,99,235,.12)}
-.finput::placeholder{color:var(--faint)}
-.ftarea{resize:vertical;min-height:60px;font-size:14px}
-
-/* ── PAPER ROWS (multi-paper form) ── */
-.paper-section-lbl{font-family:var(--fH);font-size:10px;font-weight:700;color:var(--mid);text-transform:uppercase;letter-spacing:.7px;margin-bottom:8px}
-.paper-rows{display:flex;flex-direction:column;gap:8px}
-.prow{border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;transition:border-color var(--ease),box-shadow var(--ease)}
-.prow.active{border-color:var(--row-c,var(--pMid));box-shadow:0 0 0 3px var(--row-glow,rgba(37,99,235,.10))}
-.prow-hd{display:flex;align-items:center;gap:12px;padding:12px 14px;cursor:pointer;user-select:none;background:var(--card);transition:background var(--ease)}
-.prow-hd:hover{background:var(--subtle)}
-.prow.active .prow-hd{background:var(--row-bg,var(--pLight))}
-.prow-chk{width:20px;height:20px;border-radius:6px;border:2px solid var(--borderS);background:var(--card);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:var(--ease)}
-.prow.active .prow-chk{border-color:var(--row-c,var(--pMid));background:var(--row-c,var(--pMid))}
-.prow-chk svg{width:11px;height:11px;stroke:#fff;fill:none;stroke-width:3;stroke-linecap:round;display:none}
-.prow.active .prow-chk svg{display:block}
-.prow-info{flex:1}
-.prow-name{font-family:var(--fH);font-size:13px;font-weight:700;color:var(--text)}
-.prow-type{font-family:var(--fH);font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-left:7px}
-.prow-max{font-family:var(--fM);font-size:12px;font-weight:600;color:var(--muted);flex-shrink:0}
-.prow-body{max-height:0;overflow:hidden;transition:max-height .3s cubic-bezier(.4,0,.2,1),padding .3s ease}
-.prow.active .prow-body{max-height:80px;padding:0 14px 12px}
-.prow-input-wrap{display:flex;align-items:center;gap:8px}
-.prow-inp{flex:1;padding:10px 12px;border:1.5px solid var(--borderS);border-radius:var(--rS);background:var(--card);font-family:var(--fM);font-size:15px;color:var(--text);outline:none;transition:var(--ease);-webkit-appearance:none;appearance:none}
-.prow-inp:focus{border-color:var(--row-c,var(--pMid));box-shadow:0 0 0 3px var(--row-glow,rgba(37,99,235,.10))}
-.prow-inp::placeholder{color:var(--faint)}
-.prow-of{font-family:var(--fM);font-size:13px;color:var(--muted);white-space:nowrap}
-
-/* ── COMBINED PREVIEW ── */
-.combined-preview{padding:14px 16px;border-radius:var(--rS);background:var(--subtle);border:1px solid var(--border);display:none;gap:14px;flex-direction:column;margin-top:4px}
-.combined-preview.show{display:flex}
-.cp-top{display:flex;align-items:center;justify-content:space-between}
-.cp-score{font-family:var(--fM);font-size:22px;font-weight:600;color:var(--text)}
-.cp-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
-.cp-pct{font-family:var(--fM);font-size:24px;font-weight:600;color:var(--text);line-height:1}
-.cp-grade{font-family:var(--fH);font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;text-align:center}
-.cp-track{height:8px;background:var(--border);border-radius:4px;overflow:hidden}
-.cp-fill{height:100%;border-radius:4px;transition:width .3s ease,background .3s ease;width:0}
-
-/* ── BUTTONS ── */
-.btn{display:inline-flex;align-items:center;gap:7px;padding:11px 20px;border-radius:var(--rS);font-family:var(--fH);font-size:13px;font-weight:700;cursor:pointer;border:none;transition:var(--ease);white-space:nowrap}
-.btn-primary{background:linear-gradient(135deg,var(--primary),var(--pMid));color:#fff;box-shadow:0 2px 10px rgba(30,58,138,.28)}
-.btn-primary:hover{transform:translateY(-1px);box-shadow:0 5px 18px rgba(30,58,138,.35)}
-.btn-primary:active{transform:translateY(0)}
-.btn-ghost{background:none;color:var(--mid);border:1.5px solid var(--borderS)}
-.btn-ghost:hover{background:var(--subtle);color:var(--text)}
-
-/* ── NOTIFICATIONS ── */
-.notifs{position:fixed;bottom:80px;right:16px;z-index:400;display:flex;flex-direction:column;gap:8px;pointer-events:none}
-.notif{display:flex;align-items:center;gap:9px;padding:12px 16px;border-radius:var(--r);background:var(--card);border:1px solid var(--border);box-shadow:var(--shM);font-family:var(--fH);font-size:13px;font-weight:600;max-width:300px;pointer-events:auto;animation:slideLeft .25s cubic-bezier(.34,1.56,.64,1)}
-.notif svg{width:16px;height:16px;flex-shrink:0;stroke:currentColor;fill:none;stroke-width:2.5}
-.notif span{color:var(--mid);font-weight:500}
-.notif.ok{border-left:3px solid var(--ok);color:var(--ok)}
-.notif.err{border-left:3px solid var(--err);color:var(--err)}
-.notif.info{border-left:3px solid var(--pMid);color:var(--primary)}
-
-/* ── KEYFRAMES ── */
-@keyframes rot{to{transform:rotate(360deg)}}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes slideUpM{from{opacity:0;transform:translateY(44px)}to{opacity:1;transform:translateY(0)}}
-@keyframes slideLeft{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
-
-::-webkit-scrollbar{width:5px;height:5px}
-::-webkit-scrollbar-thumb{background:var(--borderS);border-radius:3px}
-::-webkit-scrollbar-track{background:transparent}
-
-/* ══════════════ RESPONSIVE ══════════════ */
-@media(max-width:900px){
-  .nav-tabs{display:none}
-  .mob-nav{display:flex}
-  .fab{display:flex;bottom:calc(var(--mob) + 14px)}
-  .add-btn{display:none}
-  .panel{padding:20px 0 calc(var(--mob) + 20px)}
-  .notifs{bottom:calc(var(--mob) + 8px)}
-  .stats{grid-template-columns:1fr 1fr;gap:12px}
-  .subj-grid{grid-template-columns:1fr 1fr;gap:14px}
-  .ag{grid-template-columns:1fr}
-  .ab{grid-template-columns:1fr 1fr}
-}
-@media(max-width:600px){
-  nav.topnav{padding:0 14px;gap:12px}
-  .brand-sub{display:none}
-  .wrap{padding:0 13px}
-  .ph{margin-bottom:16px}
-  .ph h1{font-size:20px}
-  .hero{display:flex}
-  .stats{grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
-  .stat{padding:14px 14px}
-  .stat-val{font-size:22px}
-  .subj-grid{grid-template-columns:1fr;gap:12px}
-  .tbl-wrap{display:none}
-  .entry-cards{display:flex}
-  .ag{grid-template-columns:1fr}
-  .ab{grid-template-columns:1fr}
-  .filters{flex-direction:column;gap:8px}
-  .fg{min-width:100%}
-  .modal{max-height:95vh}
-  .mhd{padding:14px 18px 0}
-  .mbdy{padding:16px 18px}
-  .mftr{padding:0 18px 16px}
-  .frow{grid-template-columns:1fr 1fr}
-  .finput,.fsel2,.prow-inp{font-size:16px}
-  .notifs{right:10px;max-width:calc(100vw - 20px)}
-  .mob-nav{height:calc(var(--mob) + env(safe-area-inset-bottom,0px))}
-  .fab{bottom:calc(var(--mob) + env(safe-area-inset-bottom,0px) + 14px)}
-}
-@media(max-width:380px){
-  .stab{font-size:10px;padding:8px 4px}
-  .stats{grid-template-columns:1fr 1fr}
-  .ab{grid-template-columns:1fr}
-}
-</style>
 </head>
 <body>
 
-<!-- ══ BACKGROUND SCENE ══════════════════════════════════════ -->
-<div id="bgScene">
+<!-- ── BACKGROUND ── -->
+<div class="bg-wrap">
+  <div class="bg-orb o1"></div>
+  <div class="bg-orb o2"></div>
+  <div class="bg-orb o3"></div>
   <div class="bg-grid"></div>
-  <div class="orb orb1"></div>
-  <div class="orb orb2"></div>
-  <div class="orb orb3"></div>
-  <!-- Atom top-left -->
-  <div class="atom atom-tl">
-    <svg width="280" height="280" viewBox="0 0 280 280">
-      <circle cx="140" cy="140" r="8" fill="rgba(37,99,235,.25)"/>
-      <ellipse cx="140" cy="140" rx="130" ry="45" fill="none" stroke="rgba(37,99,235,.2)" stroke-width="1.2"/>
-      <ellipse cx="140" cy="140" rx="130" ry="45" fill="none" stroke="rgba(37,99,235,.15)" stroke-width="1" transform="rotate(60 140 140)"/>
-      <ellipse cx="140" cy="140" rx="130" ry="45" fill="none" stroke="rgba(37,99,235,.12)" stroke-width="1" transform="rotate(120 140 140)"/>
-      <circle cx="270" cy="140" r="4" fill="rgba(37,99,235,.3)"/>
-      <circle cx="75" cy="52" r="3" fill="rgba(37,99,235,.25)"/>
-      <circle cx="75" cy="228" r="3" fill="rgba(37,99,235,.2)"/>
-    </svg>
-  </div>
-  <!-- Atom bottom-right -->
-  <div class="atom atom-br">
-    <svg width="220" height="220" viewBox="0 0 220 220">
-      <circle cx="110" cy="110" r="7" fill="rgba(124,58,237,.25)"/>
-      <ellipse cx="110" cy="110" rx="100" ry="36" fill="none" stroke="rgba(124,58,237,.2)" stroke-width="1.2"/>
-      <ellipse cx="110" cy="110" rx="100" ry="36" fill="none" stroke="rgba(124,58,237,.15)" stroke-width="1" transform="rotate(72 110 110)"/>
-      <ellipse cx="110" cy="110" rx="100" ry="36" fill="none" stroke="rgba(124,58,237,.12)" stroke-width="1" transform="rotate(144 110 110)"/>
-      <circle cx="210" cy="110" r="4" fill="rgba(124,58,237,.3)"/>
-    </svg>
-  </div>
-  <!-- Background formulas -->
-  <div class="bg-formula" style="top:18%;left:4%;animation-duration:9s">C₆H₁₂O₆</div>
-  <div class="bg-formula" style="top:62%;left:3%;animation-duration:11s;animation-delay:-4s">F = ma</div>
-  <div class="bg-formula" style="top:32%;right:4%;animation-duration:8s;animation-delay:-2s">H₂SO₄</div>
-  <div class="bg-formula" style="top:75%;right:3%;animation-duration:13s;animation-delay:-6s">λ = h/mv</div>
-  <div class="bg-formula" style="top:48%;left:48%;animation-duration:10s;animation-delay:-3s">ATP → ADP</div>
 </div>
 
-<!-- ══ TOP NAV ═══════════════════════════════════════════════ -->
+<!-- ── TOP NAV ── -->
 <nav class="topnav">
   <a class="brand" href="#">
     <div class="brand-ico">
-      <svg viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M4.5 12.5l2 2 4-4m3-5h4a2 2 0 012 2v12a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h2"/><path d="M9 3h6v4H9z"/></svg>
     </div>
-    <div>
+    <div class="brand-text">
       <div class="brand-name">ExamTrack</div>
-      <div class="brand-sub">Science Portal</div>
+      <div class="brand-tag">Dr. Ameena's Portal</div>
     </div>
   </a>
-  <div class="nav-tabs">
-    <button class="tab-btn active" data-tab="dashboard">Dashboard</button>
-    <button class="tab-btn" data-tab="history">History</button>
-    <button class="tab-btn" data-tab="analytics">Analytics</button>
+  <div class="nav-links">
+    <button class="nl active" data-tab="dashboard">Dashboard</button>
+    <button class="nl" data-tab="history">History</button>
+    <button class="nl" data-tab="analytics">Analytics</button>
   </div>
-  <div class="nav-right">
+  <div class="nav-r">
     <button class="sync-btn" id="syncBtn">
       <svg viewBox="0 0 24 24"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
       Sync
     </button>
     <button class="add-btn" id="addBtn">
       <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-      Add Entry
+      Add Result
     </button>
   </div>
 </nav>
 
-<!-- ══ PANELS ════════════════════════════════════════════════ -->
+<!-- ── PANELS ── -->
 <div class="page">
 
   <!-- ▸ DASHBOARD -->
   <div class="panel active" data-panel="dashboard">
-    <div class="wrap">
-      <div class="hero" id="heroBar">
-        <div><div class="hero-name" id="heroName">Ameena</div><div class="hero-sub">Biology · Physics · Chemistry</div></div>
-        <div><div class="hero-avg" id="heroAvg">—</div><div class="hero-avg-lbl">Overall Avg</div></div>
+  <div class="wrap">
+
+    <!-- Greeting Card with Mascot -->
+    <div class="greet-card">
+      <div class="greet-left">
+        <div>
+          <div class="greet-time" id="greetTime">Good morning</div>
+          <div class="greet-name">Hello, <span id="greetName">Ameena</span> 👋</div>
+          <div class="greet-tag">
+            <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            Future Dr. Ameena Saaliha
+          </div>
+        </div>
+        <div class="greet-quote-wrap">
+          <div class="greet-quote" id="greetQuote">"…"</div>
+        </div>
       </div>
-      <div class="ph"><h1>Dashboard — <span id="sName">Student</span></h1><p>Biology · Physics · Chemistry — Class Exam Tracker</p></div>
-      <div class="stats" id="statsStrip"></div>
-      <div class="subj-grid" id="subjGrid"></div>
-      <div class="sec-hd">
-        <span class="sec-ttl">Recent Entries</span>
-        <button class="sec-lnk" id="viewAllBtn">View all →</button>
+      <div class="greet-right">
+        <div class="greet-bg-circle"></div>
+        <div class="greet-bg-circle2"></div>
+        <!-- Decorative stars -->
+        <div class="star" style="top:18px;left:8px;animation-delay:.4s">
+          <svg viewBox="0 0 24 24" width="14" height="14"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z" stroke-width="1.5"/></svg>
+        </div>
+        <div class="star" style="top:52px;right:6px;animation-delay:1s">
+          <svg viewBox="0 0 24 24" width="10" height="10"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z" stroke-width="2"/></svg>
+        </div>
+        <div class="star" style="bottom:42px;left:10px;animation-delay:1.8s">
+          <svg viewBox="0 0 24 24" width="12" height="12"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z" stroke-width="1.5"/></svg>
+        </div>
+        <!-- Mascot with speech bubble -->
+        <div class="mascot-wrap">
+          <div class="bubble" id="mascotBubble">Keep going, future doctor! 🩺</div>
+          <!-- Inline SVG mascot — cute doctor character -->
+          <svg class="mascot-svg" viewBox="0 0 130 155" xmlns="http://www.w3.org/2000/svg">
+            <!-- Shadow -->
+            <ellipse cx="65" cy="150" rx="38" ry="7" fill="rgba(15,39,68,.12)"/>
+            <!-- Body / coat -->
+            <rect x="28" y="85" width="74" height="62" rx="20" fill="#FFFFFF"/>
+            <!-- Coat shading sides -->
+            <path d="M28 95 Q18 100 20 135 Q22 148 38 148 L28 148 Q18 148 18 138 L18 100 Q18 90 28 90 Z" fill="#E8F2FA"/>
+            <path d="M102 95 Q112 100 110 135 Q108 148 92 148 L102 148 Q112 148 112 138 L112 100 Q112 90 102 90 Z" fill="#E8F2FA"/>
+            <!-- Coat lapels -->
+            <path d="M53 88 L47 115 L65 108 Z" fill="#D0E8F5"/>
+            <path d="M77 88 L83 115 L65 108 Z" fill="#D0E8F5"/>
+            <!-- Red cross badge -->
+            <rect x="58" y="118" width="14" height="4" rx="2" fill="#EF4444"/>
+            <rect x="63" y="113" width="4" height="14" rx="2" fill="#EF4444"/>
+            <!-- Stethoscope -->
+            <path d="M45 92 Q40 105 42 115 Q44 122 50 122 Q56 122 56 118" stroke="#4B9FD4" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <circle cx="50" cy="122" r="4" fill="none" stroke="#4B9FD4" stroke-width="2"/>
+            <path d="M85 92 Q90 105 88 115 Q86 122 80 122 Q74 122 74 118" stroke="#4B9FD4" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <!-- Neck -->
+            <rect x="57" y="74" width="16" height="18" rx="8" fill="#BDD8EE"/>
+            <!-- Head -->
+            <ellipse cx="65" cy="56" rx="34" ry="34" fill="#C8DFF0"/>
+            <!-- Hair -->
+            <path d="M31 46 Q31 20 65 20 Q99 20 99 46 Q95 34 65 34 Q35 34 31 46 Z" fill="#1A3A5C"/>
+            <path d="M31 46 Q28 38 32 32 Q36 26 42 24" stroke="#1A3A5C" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <!-- Ears -->
+            <ellipse cx="30" cy="56" rx="6" ry="8" fill="#BDD8EE"/>
+            <ellipse cx="30" cy="56" rx="3" ry="5" fill="#A8CBE4"/>
+            <ellipse cx="100" cy="56" rx="6" ry="8" fill="#BDD8EE"/>
+            <ellipse cx="100" cy="56" rx="3" ry="5" fill="#A8CBE4"/>
+            <!-- Eyes white -->
+            <ellipse cx="52" cy="54" rx="9" ry="10" fill="white"/>
+            <ellipse cx="78" cy="54" rx="9" ry="10" fill="white"/>
+            <!-- Iris -->
+            <circle cx="53" cy="55" r="6" fill="#1A3A5C"/>
+            <circle cx="79" cy="55" r="6" fill="#1A3A5C"/>
+            <!-- Pupils -->
+            <circle cx="54" cy="55" r="3" fill="#0A1F35"/>
+            <circle cx="80" cy="55" r="3" fill="#0A1F35"/>
+            <!-- Eye shine -->
+            <circle cx="56" cy="52" r="2" fill="white"/>
+            <circle cx="82" cy="52" r="2" fill="white"/>
+            <!-- Eyelashes -->
+            <path d="M43 45 Q46 42 52 44" stroke="#1A3A5C" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <path d="M66 44 Q72 42 77 45" stroke="#1A3A5C" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <!-- Blush -->
+            <ellipse cx="42" cy="64" rx="7" ry="4" fill="rgba(255,150,150,.25)"/>
+            <ellipse cx="88" cy="64" rx="7" ry="4" fill="rgba(255,150,150,.25)"/>
+            <!-- Smile -->
+            <path d="M54 68 Q65 78 76 68" stroke="#1A3A5C" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <path d="M59 69 Q65 75 71 69" fill="white"/>
+            <!-- Graduation cap -->
+            <rect x="54" y="22" width="22" height="6" rx="2" fill="#0F2744"/>
+            <rect x="49" y="19" width="32" height="5" rx="2" fill="#0F2744"/>
+            <line x1="76" y1="22" x2="82" y2="30" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="82" cy="31" r="3" fill="#F59E0B"/>
+          </svg>
+        </div>
       </div>
-      <div class="tbl-wrap"><div class="tbl-scroll">
-        <table><thead><tr><th>Subject</th><th>Papers</th><th>Exam Type</th><th>Date</th><th>Marks</th><th>%</th><th>Grade</th><th></th></tr></thead>
-        <tbody id="recentTbody"></tbody></table>
-      </div></div>
-      <div class="entry-cards" id="recentCards"></div>
     </div>
+
+    <!-- Stats row -->
+    <div class="stats-row" id="statsRow"></div>
+
+    <!-- Subject cards -->
+    <div class="sec">
+      <span class="sec-ttl">Subjects</span>
+      <span id="dateDisp" style="font-size:12px;color:var(--muted);font-weight:700"></span>
+    </div>
+    <div class="subj-row" id="subjRow"></div>
+
+    <!-- Recent entries -->
+    <div class="sec">
+      <span class="sec-ttl">Recent Results</span>
+      <button class="sec-btn" id="viewAllBtn">View all →</button>
+    </div>
+    <div class="tbl-card"><div class="tbl-scroll">
+      <table>
+        <thead><tr>
+          <th>Subject</th><th>Papers</th><th>Exam Type</th>
+          <th>Date</th><th>Marks</th><th>Combined %</th><th>Grade</th><th></th>
+        </tr></thead>
+        <tbody id="recentBody"></tbody>
+      </table>
+    </div></div>
+    <div class="ecards" id="recentCards"></div>
+
+  </div>
   </div>
 
   <!-- ▸ HISTORY -->
   <div class="panel" data-panel="history">
-    <div class="wrap">
-      <div class="ph"><h1>Full History</h1><p id="histCount">All entries</p></div>
-      <div class="filters">
-        <div class="fg"><label class="flbl">Subject</label>
-          <select class="fsel" id="fSubject"><option value="">All Subjects</option><option value="BIO">Biology</option><option value="PHY">Physics</option><option value="CHE">Chemistry</option></select></div>
-        <div class="fg"><label class="flbl">Exam Type</label>
-          <select class="fsel" id="fType"><option value="">All Types</option><option>OBT</option><option>MCQ</option><option>Essay</option><option>Full Paper</option><option>Term Exam</option><option>Past Paper Practice</option><option>Model Paper</option></select></div>
-      </div>
-      <div class="tbl-wrap"><div class="tbl-scroll">
-        <table><thead><tr><th>Subject</th><th>Papers</th><th>Exam Type</th><th>Date</th><th>Marks</th><th>%</th><th>Grade</th><th></th></tr></thead>
-        <tbody id="histTbody"></tbody></table>
-      </div></div>
-      <div class="entry-cards" id="histCards"></div>
+  <div class="wrap">
+    <div style="margin-bottom:22px">
+      <h1 style="font-size:24px;font-weight:900;letter-spacing:-.4px">Full History</h1>
+      <p style="color:var(--muted);font-size:13.5px;margin-top:4px;font-weight:600" id="histCount">All entries</p>
     </div>
+    <div class="filters">
+      <div class="fg">
+        <label class="flbl">Subject</label>
+        <select class="fsel" id="fSub">
+          <option value="">All Subjects</option>
+          <option value="BIO">Biology</option>
+          <option value="PHY">Physics</option>
+          <option value="CHE">Chemistry</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label class="flbl">Contains Paper</label>
+        <select class="fsel" id="fPap">
+          <option value="">All Papers</option>
+          <option value="P1">Paper I (MCQ)</option>
+          <option value="P2">Paper II (Structured)</option>
+          <option value="P3">Paper III (Essay)</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label class="flbl">Exam Type</label>
+        <select class="fsel" id="fTyp">
+          <option value="">All Types</option>
+          <option>OBT</option><option>MCQ</option><option>Essay</option>
+          <option>Full Paper</option><option>Term Exam</option>
+          <option>Past Paper Practice</option><option>Model Paper</option>
+        </select>
+      </div>
+    </div>
+    <div class="tbl-card"><div class="tbl-scroll">
+      <table>
+        <thead><tr>
+          <th>Subject</th><th>Papers</th><th>Exam Type</th>
+          <th>Date</th><th>Marks</th><th>Combined %</th><th>Grade</th><th></th>
+        </tr></thead>
+        <tbody id="histBody"></tbody>
+      </table>
+    </div></div>
+    <div class="ecards" id="histCards"></div>
+  </div>
   </div>
 
   <!-- ▸ ANALYTICS -->
   <div class="panel" data-panel="analytics">
-    <div class="wrap">
-      <div class="ph"><h1>Analytics</h1><p>Performance trends, subject comparisons, and paper-level breakdowns.</p></div>
-      <div class="ag">
-        <div class="cc"><div class="cc-ttl">Performance Over Time — All Subjects</div><div class="ch-wrap"><canvas id="cProgress"></canvas></div></div>
-        <div class="cc"><div class="cc-ttl">Subject Averages</div><div class="ch-wrap"><canvas id="cCompare"></canvas></div></div>
+  <div class="wrap">
+    <div style="margin-bottom:22px">
+      <h1 style="font-size:24px;font-weight:900;letter-spacing:-.4px">Analytics</h1>
+      <p style="color:var(--muted);font-size:13.5px;margin-top:4px;font-weight:600">Track your journey to medicine 📈</p>
+    </div>
+    <!-- Grade reference band -->
+    <div class="grade-band" style="margin-bottom:22px">
+      <div class="grade-pill"><span class="grade-pill-letter" style="color:#059669">A</span><span class="grade-pill-range">≥ 75%</span></div>
+      <div class="grade-pill"><span class="grade-pill-letter" style="color:#3B82F6">B</span><span class="grade-pill-range">65–74%</span></div>
+      <div class="grade-pill"><span class="grade-pill-letter" style="color:#0891B2">C</span><span class="grade-pill-range">55–64%</span></div>
+      <div class="grade-pill"><span class="grade-pill-letter" style="color:#D97706">S</span><span class="grade-pill-range">35–54%</span></div>
+      <div class="grade-pill"><span class="grade-pill-letter" style="color:#EF4444">F</span><span class="grade-pill-range">< 35%</span></div>
+    </div>
+    <div class="chart-grid-2">
+      <div class="chart-card">
+        <div class="chart-card-ttl">Progress Over Time — All Subjects</div>
+        <div class="chart-box"><canvas id="cProg"></canvas></div>
       </div>
-      <div class="ab">
-        <div class="cc"><div class="cc-ttl" style="color:var(--bio)">Biology</div><div class="ch-wrap-sm"><canvas id="cBio"></canvas></div></div>
-        <div class="cc"><div class="cc-ttl" style="color:var(--phy)">Physics</div><div class="ch-wrap-sm"><canvas id="cPhy"></canvas></div></div>
-        <div class="cc"><div class="cc-ttl" style="color:var(--chem)">Chemistry</div><div class="ch-wrap-sm"><canvas id="cChe"></canvas></div></div>
+      <div class="chart-card">
+        <div class="chart-card-ttl">Subject Averages</div>
+        <div class="chart-box"><canvas id="cComp"></canvas></div>
       </div>
     </div>
+    <div class="chart-grid-3">
+      <div class="chart-card">
+        <div class="chart-card-ttl" style="color:var(--bio)">Biology Results</div>
+        <div class="chart-box-sm"><canvas id="cBio"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-card-ttl" style="color:var(--phy)">Physics Results</div>
+        <div class="chart-box-sm"><canvas id="cPhy"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-card-ttl" style="color:var(--chem)">Chemistry Results</div>
+        <div class="chart-box-sm"><canvas id="cChe"></canvas></div>
+      </div>
+    </div>
+  </div>
   </div>
 
 </div><!-- /page -->
 
-<!-- ══ MOBILE BOTTOM NAV ════════════════════════════════════ -->
-<nav class="mob-nav">
-  <button class="mob-tab active" data-tab="dashboard">
-    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-    Dash
+<!-- ── MOBILE BOTTOM NAV ── -->
+<nav class="botnav mob-nav-h">
+  <button class="bt active" data-tab="dashboard">
+    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+    Home
   </button>
-  <button class="mob-tab" data-tab="history">
+  <button class="bt" data-tab="history">
     <svg viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
     History
   </button>
-  <button class="mob-tab" data-tab="analytics">
+  <button class="bt" data-tab="analytics">
     <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-    Analytics
+    Stats
   </button>
-  <button class="mob-tab" id="mobSync">
+  <button class="bt" id="mobSync">
     <svg viewBox="0 0 24 24"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
     Sync
   </button>
 </nav>
-<button class="fab" id="fabBtn"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
 
-<!-- ══ MODAL ═════════════════════════════════════════════════ -->
+<!-- FAB (mobile add button) -->
+<button class="fab" id="fabBtn">
+  <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+</button>
+
+<!-- ── ADD RESULT MODAL ── -->
 <div class="overlay" id="overlay">
   <div class="modal">
     <div class="modal-handle"></div>
     <div class="mhd">
-      <div><div class="mttl">Add Exam Result</div><div class="msubt">Select papers and enter marks</div></div>
-      <button class="mclose" id="mClose"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      <div>
+        <div class="mttl">Add Exam Result</div>
+        <div class="msubt">Select papers written and enter marks</div>
+      </div>
+      <button class="mclose" id="mClose">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
     </div>
     <div class="mbdy">
-      <form id="entryForm" novalidate>
+      <form id="eForm" novalidate>
         <!-- Subject selector -->
-        <div class="subj-tabs">
-          <button type="button" class="stab" data-subject="BIO">Biology</button>
-          <button type="button" class="stab" data-subject="PHY">Physics</button>
-          <button type="button" class="stab" data-subject="CHE">Chemistry</button>
+        <div class="subj-switcher">
+          <button type="button" class="stab" data-s="BIO">🌿 Biology</button>
+          <button type="button" class="stab" data-s="PHY">⚡ Physics</button>
+          <button type="button" class="stab" data-s="CHE">🧪 Chemistry</button>
         </div>
         <div class="fgrid">
-          <!-- Exam type + Date -->
+          <!-- Exam type + date -->
           <div class="frow">
             <div class="fg2">
               <label class="flbl2" for="fExam">Exam Type</label>
@@ -538,744 +327,57 @@ tbody td{padding:11px 13px;font-size:13px;color:var(--mid);vertical-align:middle
               </select>
             </div>
             <div class="fg2">
-              <label class="flbl2" for="fDate">Exam Date</label>
+              <label class="flbl2" for="fDate">Date</label>
               <input class="finput" type="date" id="fDate" required>
             </div>
           </div>
-
-          <!-- Multi-paper rows -->
-          <div>
-            <div class="paper-section-lbl">Papers — Select & Enter Marks</div>
-            <div class="paper-rows" id="paperRows">
-              <!-- Injected by JS based on active subject -->
-            </div>
+          <!-- Paper toggles — built by app.js -->
+          <div class="fg2">
+            <div class="papers-hdr">Papers Written — tick all that apply</div>
+            <div class="papers-stack" id="papersStack"></div>
           </div>
-
-          <!-- Combined preview -->
-          <div class="combined-preview" id="combinedPreview">
-            <div class="cp-top">
-              <div>
-                <div class="cp-score"><span id="cpM">0</span> / <span id="cpT">0</span></div>
-                <div style="font-size:11px;color:var(--muted);font-family:var(--fH);font-weight:600;margin-top:3px">Combined marks</div>
-              </div>
-              <div class="cp-right">
-                <span class="cp-pct" id="cpPct">—</span>
-                <span class="cp-grade" id="cpGrade">—</span>
-              </div>
+          <!-- Combined score preview -->
+          <div class="comb" id="combPrev">
+            <div class="comb-left">
+              <span class="comb-lbl">Combined Score</span>
+              <span class="comb-marks" id="combMarks">—</span>
             </div>
-            <div class="cp-track"><div class="cp-fill" id="cpFill"></div></div>
+            <div class="comb-pct" id="combPct">—</div>
+            <div class="comb-mid">
+              <div class="comb-track"><div class="comb-fill" id="combFill"></div></div>
+            </div>
+            <span class="comb-grade" id="combGrade">—</span>
           </div>
-
           <!-- Notes -->
           <div class="fg2">
-            <label class="flbl2" for="fNotes">Notes <span style="text-transform:none;letter-spacing:0;font-weight:400;color:var(--faint)">(optional)</span></label>
-            <textarea class="ftarea" id="fNotes" placeholder="e.g. skipped essay Q3…"></textarea>
+            <label class="flbl2" for="fNotes">
+              Notes
+              <span style="text-transform:none;letter-spacing:0;font-weight:400;color:var(--faint)">(optional)</span>
+            </label>
+            <textarea class="ftarea" id="fNotes" placeholder="e.g. needs more work on osmosis…"></textarea>
           </div>
         </div>
       </form>
     </div>
     <div class="mftr">
       <button type="button" class="btn btn-ghost" id="cancelBtn">Cancel</button>
-      <button type="submit" form="entryForm" class="btn btn-primary" id="saveBtn">
-        <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-        Save Entry
+      <button type="submit" form="eForm" class="btn btn-primary" id="saveBtn">
+        <svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round">
+          <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/>
+          <polyline points="17 21 17 13 7 13 7 21"/>
+          <polyline points="7 3 7 8 15 8"/>
+        </svg>
+        Save Result
       </button>
     </div>
   </div>
 </div>
 
+<!-- Notification stack -->
 <div class="notifs" id="notifs"></div>
 
-<!-- ══ SCRIPT ════════════════════════════════════════════════ -->
-<script>
-/* =============================================================
-   EXAMTRACK v4 — Application Logic
-   ============================================================= */
+<!-- Application logic (loaded last so DOM is ready) -->
+<script src="app.js"></script>
 
-// ── CONFIG ────────────────────────────────────────────────────
-const STUDENT_NAME = "Ameena Saaliha";
-const SCRIPT_URL   = "https://script.google.com/macros/s/AKfycbycfPmSWnyiGrJG-bjxKcsvF78tAlJa9R0NjMmm-N3alZfgg4iXSibuDe7VlhpjKKI2_Q/exec";
-
-const SUBJECTS = [
-  { id:"BIO", name:"Biology",   color:"#059669", light:"#ECFDF5",
-    papers:[{id:"P1",name:"Paper I",  type:"MCQ",        total:50 },
-            {id:"P2",name:"Paper II", type:"Structured", total:100},
-            {id:"P3",name:"Paper III",type:"Essay",      total:100}]},
-  { id:"PHY", name:"Physics",   color:"#2563EB", light:"#EFF6FF",
-    papers:[{id:"P1",name:"Paper I",  type:"MCQ",        total:50 },
-            {id:"P2",name:"Paper II", type:"Structured", total:100},
-            {id:"P3",name:"Paper III",type:"Essay",      total:100}]},
-  { id:"CHE", name:"Chemistry", color:"#7C3AED", light:"#F5F3FF",
-    papers:[{id:"P1",name:"Paper I",  type:"MCQ",        total:50 },
-            {id:"P2",name:"Paper II", type:"Structured", total:100},
-            {id:"P3",name:"Paper III",type:"Essay",      total:100}]}
-];
-
-// Grade thresholds
-const GRADES = [
-  {label:"A",min:75,color:"#059669",bg:"#ECFDF5"},
-  {label:"B",min:65,color:"#2563EB",bg:"#EFF6FF"},
-  {label:"C",min:55,color:"#0891B2",bg:"#ECFEFF"},
-  {label:"S",min:35,color:"#D97706",bg:"#FFFBEB"},
-  {label:"F",min:0, color:"#DC2626",bg:"#FEF2F2"}
-];
-
-// ── STATE ─────────────────────────────────────────────────────
-let entries      = [];
-let activeSubj   = "BIO";
-let paperSel     = {};   // { P1:false, P2:false, P3:false }
-const charts     = {};
-const STORE_KEY  = "examtrack_v4";
-
-// ── STORAGE ───────────────────────────────────────────────────
-function load()  { try { entries = JSON.parse(localStorage.getItem(STORE_KEY)||"[]"); } catch { entries=[]; } migrateOld(); }
-function save()  { try { localStorage.setItem(STORE_KEY, JSON.stringify(entries)); } catch {} }
-
-// Migrate old single-paper entries to new multi-paper format
-function migrateOld() {
-  entries = entries.map(e => {
-    if (!e.papers && e.paper) {
-      return { ...e, papers:[{id:e.paper, marks:e.marks, total:e.total, type:e.pType||""}],
-               totalMarks:e.marks, totalOut:e.total };
-    }
-    return e;
-  });
-}
-
-// ── HELPERS ───────────────────────────────────────────────────
-function getGrade(pct) { for (const g of GRADES) if (pct >= g.min) return g; return GRADES[GRADES.length-1]; }
-function getSubj(id)   { return SUBJECTS.find(s => s.id === id); }
-function el(id)        { return document.getElementById(id); }
-
-function subjectAvg(id) {
-  const es = entries.filter(e => e.subject === id);
-  if (!es.length) return null;
-  return es.reduce((a,e) => a + e.pct, 0) / es.length;
-}
-
-// Average % for a specific paper within a subject (for bar chart)
-function paperAvg(subjId, paperId) {
-  const vals = [];
-  entries.forEach(e => {
-    if (e.subject !== subjId) return;
-    const ps = e.papers || [];
-    const p  = ps.find(p => p.id === paperId);
-    if (p && p.total > 0) vals.push((p.marks / p.total) * 100);
-  });
-  return vals.length ? vals.reduce((a,b)=>a+b,0)/vals.length : null;
-}
-
-function fmt(d) {
-  if (!d) return "—";
-  try { return new Date(d+"T00:00:00").toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"2-digit"}); }
-  catch { return d; }
-}
-
-// ── INIT ──────────────────────────────────────────────────────
-document.addEventListener("DOMContentLoaded", () => {
-  load();
-  el("sName").textContent  = STUDENT_NAME;
-  el("heroName").textContent = STUDENT_NAME.split(" ")[0];
-
-  // Desktop tabs
-  document.querySelectorAll(".tab-btn").forEach(btn =>
-    btn.addEventListener("click", () => switchTab(btn.dataset.tab)));
-
-  // Mobile bottom tabs
-  document.querySelectorAll(".mob-tab[data-tab]").forEach(btn =>
-    btn.addEventListener("click", () => switchTab(btn.dataset.tab)));
-
-  // Add / fab buttons
-  el("addBtn").addEventListener("click", openModal);
-  el("fabBtn").addEventListener("click", openModal);
-
-  // Sync buttons
-  el("syncBtn").addEventListener("click",  () => syncSheets(true));
-  el("mobSync").addEventListener("click",  () => syncSheets(true));
-
-  // Modal controls
-  el("mClose").addEventListener("click",    closeModal);
-  el("cancelBtn").addEventListener("click", closeModal);
-  el("overlay").addEventListener("click",  e => { if (e.target === el("overlay")) closeModal(); });
-
-  // Subject tabs in form
-  document.querySelectorAll(".stab").forEach(btn =>
-    btn.addEventListener("click", () => setSubject(btn.dataset.subject)));
-
-  // Form submit
-  el("entryForm").addEventListener("submit", e => { e.preventDefault(); submitEntry(); });
-
-  // History filters
-  el("fSubject").addEventListener("change", renderHistory);
-  el("fType").addEventListener("change",    renderHistory);
-
-  el("viewAllBtn").addEventListener("click", () => switchTab("history"));
-  document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
-
-  initBackground();
-  render();
-  syncSheets(false);
-});
-
-// ── TAB SWITCHING ─────────────────────────────────────────────
-function switchTab(tab) {
-  document.querySelectorAll(".tab-btn").forEach(b => b.classList.toggle("active", b.dataset.tab === tab));
-  document.querySelectorAll(".mob-tab[data-tab]").forEach(b => b.classList.toggle("active", b.dataset.tab === tab));
-  document.querySelectorAll(".panel").forEach(p => p.classList.toggle("active", p.dataset.panel === tab));
-
-  if (tab === "history")   renderHistory();
-  if (tab === "analytics") {
-    // Double rAF: guarantees layout is fully computed before Chart.js measures canvas
-    requestAnimationFrame(() => requestAnimationFrame(() => renderAnalytics()));
-  }
-}
-
-// ── RENDER ────────────────────────────────────────────────────
-function render() {
-  renderStats();
-  renderSubjectGrid();
-  renderRecentTable();
-  renderRecentCards();
-  renderHero();
-}
-
-function renderHero() {
-  const pcts = entries.map(e => e.pct).filter(Number.isFinite);
-  const avg  = pcts.length ? pcts.reduce((a,b)=>a+b,0)/pcts.length : null;
-  el("heroAvg").textContent = avg !== null ? avg.toFixed(1)+"%" : "—";
-}
-
-// ── STATS STRIP ───────────────────────────────────────────────
-function renderStats() {
-  const total    = entries.length;
-  const pcts     = entries.map(e=>e.pct).filter(Number.isFinite);
-  const avg      = pcts.length ? pcts.reduce((a,b)=>a+b,0)/pcts.length : null;
-  const unsynced = entries.filter(e=>!e.synced).length;
-  let bestName = "—", bestAvg = -1;
-  SUBJECTS.forEach(s => { const a=subjectAvg(s.id); if (a!==null&&a>bestAvg){bestAvg=a;bestName=s.name;} });
-
-  el("statsStrip").innerHTML =
-    mkStat("Total Entries",   total,                          "recorded results",  "#2563EB") +
-    mkStat("Overall Average", avg!==null?avg.toFixed(1)+"%":"—","combined average","#0EA5E9") +
-    mkStat("Best Subject",    bestName,                        "highest average",  "#059669", true) +
-    mkStat("Pending Sync",    unsynced,                        "not in Sheets",    "#D97706");
-}
-function mkStat(l,v,s,ac,sm) {
-  return `<div class="stat" style="--ac:${ac}"><div class="stat-lbl">${l}</div>
-    <div class="stat-val" ${sm?'style="font-size:17px;font-family:var(--fH);font-weight:800"':''}>${v}</div>
-    <div class="stat-sub">${s}</div></div>`;
-}
-
-// ── SUBJECT GRID ──────────────────────────────────────────────
-function renderSubjectGrid() {
-  el("subjGrid").innerHTML = SUBJECTS.map(buildSubjCard).join("");
-  SUBJECTS.forEach(buildMiniChart);
-}
-
-function buildSubjCard(s) {
-  const es  = entries.filter(e => e.subject === s.id);
-  const avg = subjectAvg(s.id);
-  const g   = avg !== null ? getGrade(avg) : null;
-
-  const avgHtml = avg !== null
-    ? `<span class="sc-avg-n">${avg.toFixed(1)}</span><span class="sc-avg-u">%</span><br><span class="sc-avg-g">${g.label}</span>`
-    : `<span class="sc-avg-n" style="color:var(--faint)">—</span>`;
-
-  const bars = s.papers.map(p => {
-    const pa = paperAvg(s.id, p.id);
-    return `<div class="pb-row">
-      <span class="pb-lbl">${p.id}</span>
-      <div class="pb-track" style="background:${s.light}">
-        <div class="pb-fill" style="width:${pa!==null?pa:0}%;background:${s.color}"></div>
-      </div>
-      <span class="pb-pct">${pa!==null?pa.toFixed(0)+"%":"—"}</span>
-    </div>`;
-  }).join("");
-
-  return `<div class="scard" style="--cC:${s.color};--cL:${s.light}">
-    <div class="sc-hd"><span class="sc-tag">${s.id}</span><div style="text-align:right">${avgHtml}</div></div>
-    <div class="sc-name">${s.name}</div>
-    <div class="sc-cnt">${es.length} entr${es.length===1?"y":"ies"}</div>
-    <div class="pb-rows">${bars}</div>
-    <div class="sc-chart-wrap"><canvas id="mc-${s.id}"></canvas></div>
-  </div>`;
-}
-
-function buildMiniChart(s) {
-  const canvas = el("mc-"+s.id);
-  if (!canvas) return;
-  if (charts["mc-"+s.id]) { charts["mc-"+s.id].destroy(); delete charts["mc-"+s.id]; }
-  const es = entries.filter(e=>e.subject===s.id).sort((a,b)=>new Date(a.date)-new Date(b.date)).slice(-8);
-  if (!es.length) return;
-  charts["mc-"+s.id] = new Chart(canvas, {
-    type:"line",
-    data:{ labels: es.map(e => fmt(e.date)),
-      datasets:[{ data:es.map(e=>e.pct), borderColor:s.color, backgroundColor:s.color+"22",
-        borderWidth:2, pointRadius:3, pointBackgroundColor:s.color, fill:true, tension:.4 }]},
-    options:{ responsive:true, maintainAspectRatio:false,
-      plugins:{ legend:{display:false}, tooltip:{ callbacks:{label:c=>c.parsed.y.toFixed(1)+"%"},
-        backgroundColor:"#0D1526", bodyFont:{family:"JetBrains Mono",size:11} }},
-      scales:{ x:{display:false}, y:{display:false,min:0,max:100} }}
-  });
-}
-
-// ── RECENT TABLE ──────────────────────────────────────────────
-function renderRecentTable() {
-  const recent = entries.slice().sort((a,b)=>new Date(b.ts)-new Date(a.ts)).slice(0,8);
-  el("recentTbody").innerHTML = recent.length ? recent.map(buildRow).join("") : emptyRow(8);
-}
-
-// ── ENTRY CARDS ───────────────────────────────────────────────
-function renderRecentCards() {
-  const recent = entries.slice().sort((a,b)=>new Date(b.ts)-new Date(a.ts)).slice(0,8);
-  el("recentCards").innerHTML = recent.length ? recent.map(buildCard).join("") : emptyCard();
-}
-
-// ── HISTORY ───────────────────────────────────────────────────
-function renderHistory() {
-  let es = entries.slice().sort((a,b)=>new Date(b.ts)-new Date(a.ts));
-  const fs = el("fSubject").value, ft = el("fType").value;
-  if (fs) es = es.filter(e => e.subject === fs);
-  if (ft) es = es.filter(e => e.examType === ft);
-  el("histCount").textContent = `${es.length} result${es.length!==1?"s":""}`;
-  el("histTbody").innerHTML  = es.length ? es.map(buildRow).join("") : emptyRow(8);
-  el("histCards").innerHTML  = es.length ? es.map(buildCard).join("") : emptyCard();
-}
-
-// ── ROW BUILDER ───────────────────────────────────────────────
-function buildRow(e) {
-  const s   = getSubj(e.subject);
-  const g   = getGrade(e.pct);
-  const cls = e.subject.toLowerCase().slice(0,3);
-  const ps  = e.papers || [];
-
-  const papersHtml = ps.map(p =>
-    `<span class="pmini">${p.id}·${p.marks}/${p.total}</span>`
-  ).join("");
-
-  const totalM = e.totalMarks !== undefined ? e.totalMarks : (e.marks||0);
-  const totalO = e.totalOut   !== undefined ? e.totalOut   : (e.total||0);
-
-  return `<tr>
-    <td><span class="badge ${cls}"><span class="bdot"></span>${s?s.name:e.subject}</span></td>
-    <td>${papersHtml}</td>
-    <td>${e.examType}</td>
-    <td class="datemono">${fmt(e.date)}</td>
-    <td class="mono">${totalM}/${totalO}</td>
-    <td class="mono" style="color:${s?s.color:"inherit"}">${e.pct.toFixed(1)}%</td>
-    <td><span class="gchip" style="background:${g.bg};color:${g.color}">${g.label}</span></td>
-    <td><button class="del-btn" onclick="deleteEntry('${e.id}')">
-      <svg viewBox="0 0 24 24"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-    </button></td>
-  </tr>`;
-}
-
-// ── CARD BUILDER ──────────────────────────────────────────────
-function buildCard(e) {
-  const s   = getSubj(e.subject);
-  const g   = getGrade(e.pct);
-  const cls = e.subject.toLowerCase().slice(0,3);
-  const ps  = e.papers || [];
-  const totalM = e.totalMarks !== undefined ? e.totalMarks : (e.marks||0);
-  const totalO = e.totalOut   !== undefined ? e.totalOut   : (e.total||0);
-
-  const papersHtml = ps.map(p =>
-    `<span class="pmini">${p.id}·${p.marks}/${p.total}</span>`
-  ).join("");
-
-  return `<div class="ecard" style="--ec:${s?s.color:"var(--border)"}">
-    <div class="ecard-top">
-      <div>
-        <div class="ecard-badges">
-          <span class="badge ${cls}"><span class="bdot"></span>${s?s.name:e.subject}</span>
-        </div>
-        <div class="ecard-name">${e.examType}</div>
-        <div class="ecard-date">${fmt(e.date)}</div>
-        <div class="ecard-papers">${papersHtml}</div>
-      </div>
-      <div style="text-align:right">
-        <div class="ecard-pct" style="color:${s?s.color:"var(--text)"}">${e.pct.toFixed(1)}%</div>
-        <span class="ecard-grade" style="background:${g.bg};color:${g.color}">Grade ${g.label}</span>
-      </div>
-    </div>
-    <div class="ecard-bar"><div class="ecard-fill" style="width:${e.pct}%;background:${s?s.color:"var(--pMid)"}"></div></div>
-    <div class="ecard-foot">
-      <span class="ecard-marks">${totalM} / ${totalO} marks</span>
-      <button class="ecard-del" onclick="deleteEntry('${e.id}')">
-        <svg viewBox="0 0 24 24"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-      </button>
-    </div>
-  </div>`;
-}
-
-function emptyRow(cols) {
-  return `<tr><td colspan="${cols}"><div class="empty">
-    <svg viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-    <h3>No entries yet</h3><p>Click Add Entry to record your first result.</p>
-  </div></td></tr>`;
-}
-function emptyCard() {
-  return `<div class="empty">
-    <svg viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-    <h3>No entries yet</h3><p>Tap + to add your first result.</p>
-  </div>`;
-}
-
-// ══════════════════════════════════════════════════════════════
-//  ANALYTICS — Fixed: double rAF + explicit container heights
-//  + always destroy before recreate
-// ══════════════════════════════════════════════════════════════
-function renderAnalytics() {
-  // Always destroy all analytics charts first
-  ["progress","compare","BIO","PHY","CHE"].forEach(k => {
-    if (charts[k]) { charts[k].destroy(); delete charts[k]; }
-  });
-  renderProgressChart();
-  renderCompareChart();
-  SUBJECTS.forEach(renderDetailChart);
-}
-
-function renderProgressChart() {
-  const canvas = el("cProgress"); if (!canvas) return;
-  const dates  = [...new Set(entries.map(e=>e.date))].sort();
-  if (!dates.length) return;
-
-  charts.progress = new Chart(canvas, {
-    type:"line",
-    data:{ labels: dates.map(fmt), datasets: SUBJECTS.map(s => ({
-      label: s.name,
-      data: dates.map(d => {
-        const es = entries.filter(e=>e.subject===s.id&&e.date===d);
-        return es.length ? es.reduce((a,e)=>a+e.pct,0)/es.length : null;
-      }),
-      borderColor:s.color, backgroundColor:s.color+"18", borderWidth:2.5,
-      pointRadius:4, pointBackgroundColor:s.color, spanGaps:true, tension:.4, fill:false
-    }))},
-    options:{ responsive:true, maintainAspectRatio:false,
-      plugins:{ legend:{position:"bottom", labels:{font:{family:"Montserrat",size:11,weight:"700"}, boxWidth:12, padding:14}} },
-      scales:{
-        y:{ min:0, max:100, grid:{color:"rgba(15,23,42,.05)"}, ticks:{font:{family:"JetBrains Mono",size:10}, callback:v=>v+"%"} },
-        x:{ grid:{display:false}, ticks:{font:{family:"Montserrat",size:9,weight:"600"}, maxRotation:30} }
-      }
-    }
-  });
-}
-
-function renderCompareChart() {
-  const canvas = el("cCompare"); if (!canvas) return;
-  charts.compare = new Chart(canvas, {
-    type:"bar",
-    data:{ labels: SUBJECTS.map(s=>s.name),
-      datasets:[{ label:"Avg %",
-        data: SUBJECTS.map(s=>{ const a=subjectAvg(s.id); return a!==null?parseFloat(a.toFixed(1)):0; }),
-        backgroundColor: SUBJECTS.map(s=>s.color+"30"),
-        borderColor: SUBJECTS.map(s=>s.color),
-        borderWidth:2, borderRadius:10 }]},
-    options:{ responsive:true, maintainAspectRatio:false,
-      plugins:{ legend:{display:false} },
-      scales:{
-        y:{ min:0, max:100, ticks:{font:{family:"JetBrains Mono",size:10}, callback:v=>v+"%"} },
-        x:{ grid:{display:false}, ticks:{font:{family:"Montserrat",size:11,weight:"700"}} }
-      }
-    }
-  });
-}
-
-function renderDetailChart(s) {
-  const idMap = {BIO:"cBio", PHY:"cPhy", CHE:"cChe"};
-  const canvas = el(idMap[s.id]); if (!canvas) return;
-  const es = entries.filter(e=>e.subject===s.id).sort((a,b)=>new Date(a.date)-new Date(b.date)).slice(-12);
-  if (!es.length) return;
-
-  charts[s.id] = new Chart(canvas, {
-    type:"bar",
-    data:{ labels: es.map(e => fmt(e.date)),
-      datasets:[{ data:es.map(e=>e.pct),
-        backgroundColor: es.map(e=>e.pct>=75?s.color+"80":e.pct>=55?s.color+"44":s.color+"22"),
-        borderColor:s.color, borderWidth:1.5, borderRadius:7 }]},
-    options:{ responsive:true, maintainAspectRatio:false,
-      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:c=>c.parsed.y.toFixed(1)+"%"}} },
-      scales:{
-        y:{ min:0, max:100, ticks:{font:{family:"JetBrains Mono",size:9}, callback:v=>v+"%"} },
-        x:{ grid:{display:false}, ticks:{font:{family:"Montserrat",size:8}, maxRotation:45} }
-      }
-    }
-  });
-}
-
-// ══════════════════════════════════════════════════════════════
-//  MODAL & MULTI-PAPER FORM
-// ══════════════════════════════════════════════════════════════
-function openModal() {
-  el("overlay").classList.add("open");
-  document.body.style.overflow = "hidden";
-  el("fDate").valueAsDate = new Date();
-  el("fExam").value = "";
-  el("fNotes").value = "";
-  setSubject("BIO");
-}
-
-function closeModal() {
-  el("overlay").classList.remove("open");
-  document.body.style.overflow = "";
-}
-
-function setSubject(id) {
-  activeSubj = id;
-  // Update subject tab styling
-  document.querySelectorAll(".stab").forEach(btn => {
-    btn.className = "stab";
-    if (btn.dataset.subject === id) {
-      const s = getSubj(id);
-      if (s) btn.className = "stab active-" + s.id.toLowerCase().slice(0,3);
-    }
-  });
-  buildPaperRows();
-}
-
-function buildPaperRows() {
-  const s = getSubj(activeSubj);
-  if (!s) return;
-
-  // Reset selection state
-  paperSel = {};
-  s.papers.forEach(p => { paperSel[p.id] = false; });
-
-  // Subject-specific colors for CSS vars
-  const colorMap = {BIO:"#059669",PHY:"#2563EB",CHE:"#7C3AED"};
-  const glowMap  = {BIO:"rgba(5,150,105,.12)",PHY:"rgba(37,99,235,.12)",CHE:"rgba(124,58,237,.12)"};
-  const bgMap    = {BIO:"#ECFDF5",PHY:"#EFF6FF",CHE:"#F5F3FF"};
-  const c   = colorMap[activeSubj];
-  const gl  = glowMap[activeSubj];
-  const bg  = bgMap[activeSubj];
-
-  el("paperRows").innerHTML = s.papers.map(p => `
-    <div class="prow" id="prow-${p.id}" style="--row-c:${c};--row-glow:${gl};--row-bg:${bg}">
-      <div class="prow-hd" onclick="togglePaper('${p.id}')">
-        <div class="prow-chk" id="pchk-${p.id}">
-          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-        </div>
-        <div class="prow-info">
-          <span class="prow-name">${p.name}</span>
-          <span class="prow-type">${p.type}</span>
-        </div>
-        <span class="prow-max">/ ${p.total}</span>
-      </div>
-      <div class="prow-body" id="pbody-${p.id}">
-        <div class="prow-input-wrap">
-          <input class="prow-inp" type="number" id="pm-${p.id}"
-            placeholder="Marks obtained" min="0" max="${p.total}" step="0.5"
-            inputmode="decimal" oninput="updateCombinedPreview()">
-          <span class="prow-of">/ ${p.total}</span>
-        </div>
-      </div>
-    </div>`).join("");
-
-  el("combinedPreview").classList.remove("show");
-}
-
-function togglePaper(pid) {
-  paperSel[pid] = !paperSel[pid];
-  const row = el("prow-"+pid);
-  row.classList.toggle("active", paperSel[pid]);
-  if (!paperSel[pid]) {
-    el("pm-"+pid).value = "";
-  } else {
-    // Small delay for the expand animation, then focus
-    setTimeout(() => { const inp = el("pm-"+pid); if (inp) inp.focus(); }, 250);
-  }
-  updateCombinedPreview();
-}
-
-function updateCombinedPreview() {
-  const s = getSubj(activeSubj);
-  if (!s) return;
-
-  let totalM = 0, totalO = 0, anyValid = false;
-
-  s.papers.forEach(p => {
-    if (!paperSel[p.id]) return;
-    const m = parseFloat(el("pm-"+p.id).value);
-    if (!isNaN(m) && m >= 0 && m <= p.total) {
-      totalM += m; totalO += p.total; anyValid = true;
-    } else if (paperSel[p.id]) {
-      // Selected but marks not yet valid — still add to total denominator
-      totalO += p.total;
-    }
-  });
-
-  if (anyValid && totalO > 0) {
-    const pct  = (totalM / totalO) * 100;
-    const g    = getGrade(pct);
-    el("cpM").textContent = totalM;
-    el("cpT").textContent = totalO;
-    el("cpPct").textContent = pct.toFixed(1)+"%";
-    const ge = el("cpGrade");
-    ge.textContent = "Grade "+g.label;
-    ge.style.background = g.bg; ge.style.color = g.color;
-    el("cpFill").style.width = pct+"%"; el("cpFill").style.background = g.color;
-    el("combinedPreview").classList.add("show");
-  } else {
-    el("combinedPreview").classList.remove("show");
-  }
-}
-
-// ══════════════════════════════════════════════════════════════
-//  SUBMIT ENTRY — Multi-paper, combined % calculation
-// ══════════════════════════════════════════════════════════════
-function submitEntry() {
-  const examType = el("fExam").value;
-  const date     = el("fDate").value;
-  const notes    = el("fNotes").value.trim();
-
-  if (!examType) { notify("Please select an exam type.", "err"); return; }
-  if (!date)     { notify("Please select a date.", "err");       return; }
-
-  const s = getSubj(activeSubj);
-  const papersData = [];
-  let validationFailed = false;
-
-  s.papers.forEach(p => {
-    if (!paperSel[p.id]) return;
-    const m = parseFloat(el("pm-"+p.id).value);
-    if (isNaN(m) || m < 0 || m > p.total) {
-      notify(`Enter valid marks for ${p.name} (0 – ${p.total}).`, "err");
-      validationFailed = true;
-      return;
-    }
-    papersData.push({ id:p.id, name:p.name, marks:m, total:p.total, type:p.type });
-  });
-
-  if (validationFailed) return;
-  if (!papersData.length) { notify("Select at least one paper.", "err"); return; }
-
-  // Combined calculation: sum(marks) / sum(totals) × 100
-  const totalMarks = papersData.reduce((a,p)=>a+p.marks, 0);
-  const totalOut   = papersData.reduce((a,p)=>a+p.total, 0);
-  const pct        = parseFloat(((totalMarks / totalOut) * 100).toFixed(2));
-  const g          = getGrade(pct);
-
-  const entry = {
-    id:        "ET-"+Date.now(),
-    subject:   activeSubj,
-    papers:    papersData,
-    examType,
-    date,
-    totalMarks,
-    totalOut,
-    pct,
-    notes,
-    ts:        new Date().toISOString(),
-    synced:    false
-  };
-
-  entries.push(entry);
-  save();
-  render();
-  closeModal();
-  notify(`Saved — ${pct.toFixed(1)}% (Grade ${g.label})`, "ok");
-  pushToSheets(entry);
-}
-
-// ── DELETE ────────────────────────────────────────────────────
-function deleteEntry(id) {
-  if (!confirm("Delete this entry?")) return;
-  entries = entries.filter(e => e.id !== id);
-  save(); render(); renderHistory();
-  notify("Entry removed.", "info");
-}
-
-// ══════════════════════════════════════════════════════════════
-//  GOOGLE SHEETS SYNC
-//  FIX: Content-Type must be text/plain with no-cors to avoid
-//  CORS preflight. Apps Script still receives JSON body via
-//  e.postData.contents — just parsed with JSON.parse().
-// ══════════════════════════════════════════════════════════════
-async function pushToSheets(entry) {
-  if (!SCRIPT_URL || SCRIPT_URL.includes("YOUR_")) return;
-  try {
-    await fetch(SCRIPT_URL, {
-      method:  "POST",
-      mode:    "no-cors",
-      headers: { "Content-Type": "text/plain" },  // ← KEY FIX
-      body:    JSON.stringify({ action:"add", ...entry })
-    });
-    // no-cors response is opaque; optimistically mark synced
-    const idx = entries.findIndex(e => e.id === entry.id);
-    if (idx !== -1) { entries[idx].synced = true; save(); }
-    renderStats();
-  } catch(err) {
-    console.warn("Sheets push:", err.message);
-    notify("Saved locally — will sync later.", "info");
-  }
-}
-
-async function syncSheets(manual) {
-  if (!SCRIPT_URL || SCRIPT_URL.includes("YOUR_")) {
-    if (manual) notify("No Script URL configured.", "info");
-    return;
-  }
-  [el("syncBtn"), el("mobSync")].forEach(b => b && b.classList.add("spin"));
-  try {
-    const res  = await fetch(SCRIPT_URL + "?action=getAll&t=" + Date.now());
-    if (!res.ok) throw new Error("HTTP " + res.status);
-    const json = await res.json();
-
-    if (json.success && Array.isArray(json.data) && json.data.length) {
-      const remoteIds = new Set(json.data.map(r=>r.id));
-      const local     = entries.filter(e => !e.synced && !remoteIds.has(e.id));
-      entries = json.data.concat(local);
-      migrateOld();
-      save(); render();
-      if (manual) notify(`Synced — ${json.data.length} entries.`, "ok");
-      // Re-push any still-unsynced
-      entries.filter(e=>!e.synced).forEach(pushToSheets);
-    } else {
-      if (manual) notify("Connected — no remote data yet.", "info");
-    }
-  } catch(err) {
-    console.warn("Sync:", err);
-    if (manual) notify("Sync failed — check Script URL & deployment.", "err");
-  } finally {
-    [el("syncBtn"), el("mobSync")].forEach(b => b && b.classList.remove("spin"));
-  }
-}
-
-// ══════════════════════════════════════════════════════════════
-//  BACKGROUND SCENE — particles
-// ══════════════════════════════════════════════════════════════
-function initBackground() {
-  const scene  = el("bgScene");
-  const colors = ["rgba(37,99,235,.3)","rgba(5,150,105,.25)","rgba(124,58,237,.25)","rgba(14,165,233,.3)"];
-  for (let i = 0; i < 28; i++) {
-    const d     = document.createElement("div");
-    const size  = Math.random() * 4 + 2;
-    d.className = "pt";
-    d.style.cssText =
-      `width:${size}px;height:${size}px;`+
-      `left:${Math.random()*100}%;`+
-      `top:${Math.random()*100}%;`+
-      `background:${colors[Math.floor(Math.random()*colors.length)]};`+
-      `animation-duration:${(Math.random()*18+10).toFixed(1)}s;`+
-      `animation-delay:-${(Math.random()*20).toFixed(1)}s;`;
-    scene.appendChild(d);
-  }
-}
-
-// ── NOTIFICATIONS ─────────────────────────────────────────────
-const NICONS = {
-  ok:   '<svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>',
-  err:  '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>',
-  info: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>'
-};
-function notify(msg, type) {
-  const wrap = el("notifs");
-  const n    = document.createElement("div");
-  n.className = "notif " + type;
-  n.innerHTML = (NICONS[type]||"") + `<span>${msg}</span>`;
-  wrap.appendChild(n);
-  setTimeout(() => { n.style.cssText += "opacity:0;transition:opacity .3s"; setTimeout(()=>n.remove(),320); }, 4000);
-}
-</script>
 </body>
 </html>
