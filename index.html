@@ -71,7 +71,6 @@
       <div class="greet-right">
         <div class="greet-bg-circle"></div>
         <div class="greet-bg-circle2"></div>
-        <!-- Decorative stars -->
         <div class="star" style="top:18px;left:8px;animation-delay:.4s">
           <svg viewBox="0 0 24 24" width="14" height="14"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z" stroke-width="1.5"/></svg>
         </div>
@@ -81,62 +80,42 @@
         <div class="star" style="bottom:42px;left:10px;animation-delay:1.8s">
           <svg viewBox="0 0 24 24" width="12" height="12"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z" stroke-width="1.5"/></svg>
         </div>
-        <!-- Mascot with speech bubble -->
         <div class="mascot-wrap">
           <div class="bubble" id="mascotBubble">Keep going, future doctor! 🩺</div>
-          <!-- Inline SVG mascot — cute doctor character -->
           <svg class="mascot-svg" viewBox="0 0 130 155" xmlns="http://www.w3.org/2000/svg">
-            <!-- Shadow -->
             <ellipse cx="65" cy="150" rx="38" ry="7" fill="rgba(15,39,68,.12)"/>
-            <!-- Body / coat -->
             <rect x="28" y="85" width="74" height="62" rx="20" fill="#FFFFFF"/>
-            <!-- Coat shading sides -->
             <path d="M28 95 Q18 100 20 135 Q22 148 38 148 L28 148 Q18 148 18 138 L18 100 Q18 90 28 90 Z" fill="#E8F2FA"/>
             <path d="M102 95 Q112 100 110 135 Q108 148 92 148 L102 148 Q112 148 112 138 L112 100 Q112 90 102 90 Z" fill="#E8F2FA"/>
-            <!-- Coat lapels -->
             <path d="M53 88 L47 115 L65 108 Z" fill="#D0E8F5"/>
             <path d="M77 88 L83 115 L65 108 Z" fill="#D0E8F5"/>
-            <!-- Red cross badge -->
             <rect x="58" y="118" width="14" height="4" rx="2" fill="#EF4444"/>
             <rect x="63" y="113" width="4" height="14" rx="2" fill="#EF4444"/>
-            <!-- Stethoscope -->
             <path d="M45 92 Q40 105 42 115 Q44 122 50 122 Q56 122 56 118" stroke="#4B9FD4" stroke-width="2.5" fill="none" stroke-linecap="round"/>
             <circle cx="50" cy="122" r="4" fill="none" stroke="#4B9FD4" stroke-width="2"/>
             <path d="M85 92 Q90 105 88 115 Q86 122 80 122 Q74 122 74 118" stroke="#4B9FD4" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-            <!-- Neck -->
             <rect x="57" y="74" width="16" height="18" rx="8" fill="#BDD8EE"/>
-            <!-- Head -->
             <ellipse cx="65" cy="56" rx="34" ry="34" fill="#C8DFF0"/>
-            <!-- Hair -->
             <path d="M31 46 Q31 20 65 20 Q99 20 99 46 Q95 34 65 34 Q35 34 31 46 Z" fill="#1A3A5C"/>
             <path d="M31 46 Q28 38 32 32 Q36 26 42 24" stroke="#1A3A5C" stroke-width="4" fill="none" stroke-linecap="round"/>
-            <!-- Ears -->
             <ellipse cx="30" cy="56" rx="6" ry="8" fill="#BDD8EE"/>
             <ellipse cx="30" cy="56" rx="3" ry="5" fill="#A8CBE4"/>
             <ellipse cx="100" cy="56" rx="6" ry="8" fill="#BDD8EE"/>
             <ellipse cx="100" cy="56" rx="3" ry="5" fill="#A8CBE4"/>
-            <!-- Eyes white -->
             <ellipse cx="52" cy="54" rx="9" ry="10" fill="white"/>
             <ellipse cx="78" cy="54" rx="9" ry="10" fill="white"/>
-            <!-- Iris -->
             <circle cx="53" cy="55" r="6" fill="#1A3A5C"/>
             <circle cx="79" cy="55" r="6" fill="#1A3A5C"/>
-            <!-- Pupils -->
             <circle cx="54" cy="55" r="3" fill="#0A1F35"/>
             <circle cx="80" cy="55" r="3" fill="#0A1F35"/>
-            <!-- Eye shine -->
             <circle cx="56" cy="52" r="2" fill="white"/>
             <circle cx="82" cy="52" r="2" fill="white"/>
-            <!-- Eyelashes -->
             <path d="M43 45 Q46 42 52 44" stroke="#1A3A5C" stroke-width="1.5" fill="none" stroke-linecap="round"/>
             <path d="M66 44 Q72 42 77 45" stroke="#1A3A5C" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-            <!-- Blush -->
             <ellipse cx="42" cy="64" rx="7" ry="4" fill="rgba(255,150,150,.25)"/>
             <ellipse cx="88" cy="64" rx="7" ry="4" fill="rgba(255,150,150,.25)"/>
-            <!-- Smile -->
             <path d="M54 68 Q65 78 76 68" stroke="#1A3A5C" stroke-width="2.5" fill="none" stroke-linecap="round"/>
             <path d="M59 69 Q65 75 71 69" fill="white"/>
-            <!-- Graduation cap -->
             <rect x="54" y="22" width="22" height="6" rx="2" fill="#0F2744"/>
             <rect x="49" y="19" width="32" height="5" rx="2" fill="#0F2744"/>
             <line x1="76" y1="22" x2="82" y2="30" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
@@ -146,17 +125,14 @@
       </div>
     </div>
 
-    <!-- Stats row -->
     <div class="stats-row" id="statsRow"></div>
 
-    <!-- Subject cards -->
     <div class="sec">
       <span class="sec-ttl">Subjects</span>
       <span id="dateDisp" style="font-size:12px;color:var(--muted);font-weight:700"></span>
     </div>
     <div class="subj-row" id="subjRow"></div>
 
-    <!-- Recent entries -->
     <div class="sec">
       <span class="sec-ttl">Recent Results</span>
       <button class="sec-btn" id="viewAllBtn">View all →</button>
@@ -164,7 +140,7 @@
     <div class="tbl-card"><div class="tbl-scroll">
       <table>
         <thead><tr>
-          <th>Subject</th><th>Papers</th><th>Exam Type</th>
+          <th>Subject</th><th>Papers</th><th>Exam Type / Name</th>
           <th>Date</th><th>Marks</th><th>Combined %</th><th>Grade</th><th></th>
         </tr></thead>
         <tbody id="recentBody"></tbody>
@@ -205,16 +181,16 @@
         <label class="flbl">Exam Type</label>
         <select class="fsel" id="fTyp">
           <option value="">All Types</option>
-          <option>OBT</option><option>MCQ</option><option>Essay</option>
-          <option>Full Paper</option><option>Term Exam</option>
-          <option>Past Paper Practice</option><option>Model Paper</option>
+          <option>MCQ</option>
+          <option>Essay</option>
+          <option>Full Paper</option>
         </select>
       </div>
     </div>
     <div class="tbl-card"><div class="tbl-scroll">
       <table>
         <thead><tr>
-          <th>Subject</th><th>Papers</th><th>Exam Type</th>
+          <th>Subject</th><th>Papers</th><th>Exam Type / Name</th>
           <th>Date</th><th>Marks</th><th>Combined %</th><th>Grade</th><th></th>
         </tr></thead>
         <tbody id="histBody"></tbody>
@@ -231,13 +207,12 @@
       <h1 style="font-size:24px;font-weight:900;letter-spacing:-.4px">Analytics</h1>
       <p style="color:var(--muted);font-size:13.5px;margin-top:4px;font-weight:600">Track your journey to medicine 📈</p>
     </div>
-    <!-- Grade reference band -->
     <div class="grade-band" style="margin-bottom:22px">
       <div class="grade-pill"><span class="grade-pill-letter" style="color:#059669">A</span><span class="grade-pill-range">≥ 75%</span></div>
       <div class="grade-pill"><span class="grade-pill-letter" style="color:#3B82F6">B</span><span class="grade-pill-range">65–74%</span></div>
       <div class="grade-pill"><span class="grade-pill-letter" style="color:#0891B2">C</span><span class="grade-pill-range">55–64%</span></div>
       <div class="grade-pill"><span class="grade-pill-letter" style="color:#D97706">S</span><span class="grade-pill-range">35–54%</span></div>
-      <div class="grade-pill"><span class="grade-pill-letter" style="color:#EF4444">F</span><span class="grade-pill-range">< 35%</span></div>
+      <div class="grade-pill"><span class="grade-pill-letter" style="color:#EF4444">F</span><span class="grade-pill-range">&lt; 35%</span></div>
     </div>
     <div class="chart-grid-2">
       <div class="chart-card">
@@ -287,8 +262,6 @@
     Sync
   </button>
 </nav>
-
-<!-- FAB (mobile add button) -->
 <button class="fab" id="fabBtn">
   <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
 </button>
@@ -300,7 +273,7 @@
     <div class="mhd">
       <div>
         <div class="mttl">Add Exam Result</div>
-        <div class="msubt">Select papers written and enter marks</div>
+        <div class="msubt">Choose subject, type, then enter marks</div>
       </div>
       <button class="mclose" id="mClose">
         <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
@@ -308,34 +281,63 @@
     </div>
     <div class="mbdy">
       <form id="eForm" novalidate>
-        <!-- Subject selector -->
+
+        <!-- Step 1: Subject -->
+        <div class="form-step-lbl">Step 1 — Subject</div>
         <div class="subj-switcher">
           <button type="button" class="stab" data-s="BIO">🌿 Biology</button>
           <button type="button" class="stab" data-s="PHY">⚡ Physics</button>
           <button type="button" class="stab" data-s="CHE">🧪 Chemistry</button>
         </div>
+
         <div class="fgrid">
-          <!-- Exam type + date -->
+
+          <!-- Step 2: Exam type + date -->
+          <div class="form-step-lbl">Step 2 — Exam Details</div>
           <div class="frow">
             <div class="fg2">
               <label class="flbl2" for="fExam">Exam Type</label>
+              <!--
+                FIX 5: Only 3 types.
+                MCQ        → Paper I only (auto-checked)
+                Essay      → Paper II and/or III
+                Full Paper → All three
+              -->
               <select class="fsel2" id="fExam" required>
-                <option value="">Select…</option>
-                <option>OBT</option><option>MCQ</option><option>Essay</option>
-                <option>Full Paper</option><option>Term Exam</option>
-                <option>Past Paper Practice</option><option>Model Paper</option>
+                <option value="">Select type…</option>
+                <option value="MCQ">MCQ (Paper I only)</option>
+                <option value="Essay">Essay (Paper II / III)</option>
+                <option value="Full Paper">Full Paper (All papers)</option>
               </select>
             </div>
             <div class="fg2">
-              <label class="flbl2" for="fDate">Date</label>
+              <label class="flbl2" for="fDate">Exam Date</label>
               <input class="finput" type="date" id="fDate" required>
             </div>
           </div>
-          <!-- Paper toggles — built by app.js -->
+
+          <!-- FIX 6: Paper / Exam Name -->
           <div class="fg2">
-            <div class="papers-hdr">Papers Written — tick all that apply</div>
+            <label class="flbl2" for="fPaperName">
+              Paper / Exam Name
+              <span style="text-transform:none;letter-spacing:0;font-weight:400;color:var(--faint)">(optional)</span>
+            </label>
+            <input class="finput" type="text" id="fPaperName"
+              placeholder="e.g. Term Test 1, Colombo Model 2024, Mock Final…"
+              autocomplete="off">
+          </div>
+
+          <!-- Step 3: Papers and marks — driven by exam type -->
+          <div>
+            <div class="form-step-lbl">Step 3 — Marks</div>
+            <!-- Hint shown before exam type is selected -->
+            <div class="papers-hint-msg" id="papersHint">
+              Select an exam type above to see available papers.
+            </div>
+            <!-- Paper rows injected here by app.js -->
             <div class="papers-stack" id="papersStack"></div>
           </div>
+
           <!-- Combined score preview -->
           <div class="comb" id="combPrev">
             <div class="comb-left">
@@ -348,14 +350,16 @@
             </div>
             <span class="comb-grade" id="combGrade">—</span>
           </div>
+
           <!-- Notes -->
           <div class="fg2">
             <label class="flbl2" for="fNotes">
               Notes
               <span style="text-transform:none;letter-spacing:0;font-weight:400;color:var(--faint)">(optional)</span>
             </label>
-            <textarea class="ftarea" id="fNotes" placeholder="e.g. needs more work on osmosis…"></textarea>
+            <textarea class="ftarea" id="fNotes" placeholder="e.g. needs more work on osmosis, missed cell respiration…"></textarea>
           </div>
+
         </div>
       </form>
     </div>
@@ -373,11 +377,7 @@
   </div>
 </div>
 
-<!-- Notification stack -->
 <div class="notifs" id="notifs"></div>
-
-<!-- Application logic (loaded last so DOM is ready) -->
 <script src="app.js"></script>
-
 </body>
 </html>
